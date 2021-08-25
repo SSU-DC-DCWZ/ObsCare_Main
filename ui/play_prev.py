@@ -12,7 +12,7 @@ def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
-form = resource_path("prev_player.ui")
+form = resource_path("./ui/prev_player.ui")
 
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
