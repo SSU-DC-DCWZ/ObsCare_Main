@@ -9,8 +9,8 @@ def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
-form = resource_path("main.ui")
 
+form = resource_path("main.ui")
 form_class = uic.loadUiType(form)[0]
 
 # 화면을 띄우는데 사용되는 Class 선언
@@ -32,7 +32,7 @@ class WindowClass(QMainWindow, form_class):
 
         if ok:
             camNum, date = info.split("-")
-            print(camNum, date)
+            # print(camNum, date)
             self.play_prev_video(camNum, date)
 
     def play_prev_video(self, cam, date):

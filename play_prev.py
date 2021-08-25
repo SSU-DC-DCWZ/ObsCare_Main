@@ -14,15 +14,13 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 form = resource_path("prev_player.ui")
 
-form_class = uic.loadUiType(form)[0]
-
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
 
 class CWidget(QWidget):
     def __init__(self):
         super().__init__()
-        loadUi(form, self)
+        uic.loadUi(form, self)
 
         # Multimedia Object
         self.mp = CMultiMedia(self, self.view)
@@ -111,7 +109,6 @@ class CWidget(QWidget):
         self.mp.volumeMedia(vol)
 
     def barChanged(self, pos):
-        print(pos)
         self.mp.posMoveMedia(pos)
 
     def updateState(self, msg):
