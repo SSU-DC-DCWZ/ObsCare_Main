@@ -1,8 +1,8 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
-from play_ui import *
-from open_video import *
+from ui.play_ui import *
+from ui.open_video import *
 from Detect.falldetect import model
 
 if __name__ == '__main__':
