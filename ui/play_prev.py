@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from PyQt5.QtCore import Qt, QUrl, QCoreApplication
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5 import uic
-from ui.prev_playlist import CMultiMedia
 import sys
 import datetime
 import sys
