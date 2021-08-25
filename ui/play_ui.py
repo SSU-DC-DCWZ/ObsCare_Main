@@ -10,8 +10,12 @@ def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
+# form = resource_path("./ui/main.ui")
 form = resource_path("./ui/main.ui")
-form_class = uic.loadUiType(form)[0]
+if os.path.isfile(form):
+    form_class = uic.loadUiType(form)[0]
+else:
+    form_class = uic.loadUiType("./ui/main.ui")[0]
 
 # 화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, form_class):

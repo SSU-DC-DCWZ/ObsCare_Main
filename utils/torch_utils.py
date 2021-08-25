@@ -3,6 +3,7 @@
 import datetime
 import logging
 import os
+import sys
 import platform
 import subprocess
 import time
@@ -45,11 +46,20 @@ def init_torch_seeds(seed=0):
     else:  # faster, less reproducible
         cudnn.benchmark, cudnn.deterministic = True, False
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 def date_modified(path=__file__):
     # return human-readable file modification date, i.e. '2021-3-26'
-    # t = datetime.datetime.fromtimestamp(Path(path).stat().st_mtime)'C:\Users\lcs07\PycharmProjects\ObsCure\utils\torch_utils.py'
-    t = datetime.datetime.fromtimestamp(Path(os.path.join("c:", os.sep, "Users", "lcs07", "PycharmProjects", "ObsCure", "utils", "torch_utils.py")).stat().st_mtime)
+    path = './utils/torch_utils.py'
+    path = resource_path(path)
+    if os.path.isfile(path):
+        pass
+    else:
+        path=__file__
+    t = datetime.datetime.fromtimestamp(Path(os.path.abspath(path)).stat().st_mtime)
     return f'{t.year}-{t.month}-{t.day}'
 
 def git_describe(path=Path(__file__).parent):  # path must be a directory
