@@ -1,8 +1,8 @@
-from open_video import *
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from play_ui import *
+from open_video import *
 from Detect.falldetect import model
 
 if __name__ == '__main__':
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # vid2 = ShowVideo(1)
     # vid2.moveToThread(thread2)
 
-    # 객체 생성
+    # 영상 재생에 대한 판 객체 생성
     image_viewer1 = ImageViewer()
     image_viewer2 = ImageViewer()
     image_viewer3 = ImageViewer()

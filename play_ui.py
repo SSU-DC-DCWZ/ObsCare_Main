@@ -28,16 +28,18 @@ class WindowClass(QMainWindow, form_class):
         self.show_alert(1)
 
     def get_find_date(self):
-        date, ok = QInputDialog.getText(self, 'GetDate', '날짜를 입력하시오 (YYYY-MM-DD) : ')
+        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (01-20210101) : ')
 
         if ok:
-            self.alert_browser.append(date)
+            camNum, date = info.split("-")
+            print(camNum, date)
+            self.play_prev_video(camNum, date)
 
-    def play_prev_video(self, date):
-        self.hide()
-        self.PreVideo = PrevWindow()
-        self.PreVideo.exec()
-        #self.show()
+    def play_prev_video(self, cam, date):
+        self.alert_browser.append("카메라 : " + cam)
+        self.alert_browser.append("일자 : " + date)
+        self.PreVideo = CWidget()
+        self.PreVideo.show()
 
     def show_alert(self, code):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
