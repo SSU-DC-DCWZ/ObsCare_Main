@@ -1,8 +1,16 @@
 import cv2
+<<<<<<< HEAD
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5 import uic
+=======
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
+from PyQt5.QtCore import Qt, QUrl, QCoreApplication
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
+from PyQt5 import uic
+import sys
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
 import datetime
 import sys
 import os
@@ -23,7 +31,11 @@ QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
 
 class PrevVideo(QWidget):
+<<<<<<< HEAD
     def __init__(self, path="./test.avi"):
+=======
+    def __init__(self):
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
         super().__init__()
         uic.loadUi(form, self)
 
@@ -33,7 +45,11 @@ class PrevVideo(QWidget):
         self.mp.setVideoOutput(self.vp)
         self.content = QMediaContent(QUrl.fromLocalFile(path))
         self.mp.setMedia(self.content)
+<<<<<<< HEAD
         self.mp.play()  # default state : video playing
+=======
+        self.mp.play() # default state : video playing
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
         self.state.setText("Playing")
 
         self.play_signal = True
@@ -46,11 +62,19 @@ class PrevVideo(QWidget):
 
         self.bar.setRange(0, self.vid_length)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
         self.bar.sliderMoved.connect(self.barChanged)
 
         # signals
         self.btn_play_pause.clicked.connect(self.clickPlayPause)
+<<<<<<< HEAD
         self.btn_exit.clicked.connect(lambda: self.close())
+=======
+        self.btn_exit.clicked.connect(lambda:self.close())
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
         self.btn_change.clicked.connect(self.change_file)
 
         self.mp.stateChanged.connect(self.mediaStateChanged)
@@ -67,11 +91,18 @@ class PrevVideo(QWidget):
             self.newVideo = PrevVideo()
             self.newVideo.show()
 
+<<<<<<< HEAD
     def calc_time(self, sec):  # sec를 시간으로 변경
+=======
+
+
+    def calc_time(self, sec):   # sec를 시간으로 변경
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
         sec = sec / 60 // 0.1 * 6
         intoS = sec
 
         res = ""
+<<<<<<< HEAD
         temp = int(sec // 3600)
         res += str(temp) + ":"
         temp = int(sec / 60)
@@ -83,6 +114,19 @@ class PrevVideo(QWidget):
 
         # 재생 버튼
 
+=======
+        temp = int(sec//3600)
+        res += str(temp) + ":"
+        temp = int(sec/60)
+        if len(str(temp)) == 1:
+            res += "0"
+        res += str(temp) + ":" + str(int(sec%60))
+
+        return int(intoS), res
+
+
+    # 재생 버튼
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
     def clickPlayPause(self):
         if self.play_signal == True:
             self.mp.pause()
@@ -100,6 +144,7 @@ class PrevVideo(QWidget):
         else:
             msg = 'Paused'
         self.updateState(msg)
+<<<<<<< HEAD
 
     def durationChanged(self, duration):
         self.bar.setRange(0, duration)
@@ -110,20 +155,42 @@ class PrevVideo(QWidget):
 
         # 마우스로 재생 상태 슬라이더 움직이면 호출됨
         # 동영상의 재생 시간을 범위로 가짐.
+=======
 
+    def durationChanged(self, duration):
+        self.bar.setRange(0, duration)
+
+    def positionChanged(self, pos):
+        self.bar.setValue(pos)
+        self.updatePos(pos)
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
+
+    # 마우스로 재생 상태 슬라이더 움직이면 호출됨
+    # 동영상의 재생 시간을 범위로 가짐.
     def barChanged(self, pos):
         self.mp.setPosition(pos)
+<<<<<<< HEAD
 
         # 현재 상태(play, stop, pause) 바뀔 때마다 호출.
         # stateChanged 시그널 발생 시 widget으로 전달됨
+=======
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
 
+    # 현재 상태(play, stop, pause) 바뀔 때마다 호출.
+    # stateChanged 시그널 발생 시 widget으로 전달됨
     def updateState(self, msg):
         self.state.setText(msg)
 
+<<<<<<< HEAD
         # 동영상 file이 변경될 때마다 호출
         # durationChanged signal 발생 시 위젯으로 재생시간(ms) 전달됨
         # 현재 동영상파일의 재생시간으로 슬라이더 범위 초기화
 
+=======
+    # 동영상 file이 변경될 때마다 호출
+    # durationChanged signal 발생 시 위젯으로 재생시간(ms) 전달됨
+    # 현재 동영상파일의 재생시간으로 슬라이더 범위 초기화
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
     def updateBar(self, duration):
         self.bar.setRange(0, duration)
         self.bar.setSingleStep(int(duration / 10))
@@ -134,13 +201,22 @@ class PrevVideo(QWidget):
         idx = stime.rfind('.')
         self.duration = stime[:idx]
 
+<<<<<<< HEAD
         # 동영상 파일 재생될 때마다 기본 1초 간격으로 호출되는 함수
         # 현재 재생 위치 전달됨
 
+=======
+    # 동영상 파일 재생될 때마다 기본 1초 간격으로 호출되는 함수
+    # 현재 재생 위치 전달됨
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
     def updatePos(self, pos):
         self.bar.setValue(pos)
         td = datetime.timedelta(milliseconds=pos)
         stime = str(td)
         idx = stime.rfind('.')
         stime = f'{stime[:idx]} / {self.vid_time}'
+<<<<<<< HEAD
         self.playtime.setText(stime)
+=======
+        self.playtime.setText(stime)
+>>>>>>> 09312332ef9ccc92e33bd46abee122e04672d8ab
