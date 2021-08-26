@@ -27,7 +27,7 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
-        self.exit_button.clicked.connect(QtCore.QCoreApplication.instance().quit)
+        self.exit_button.clicked.connect(lambda : self.close())
         self.action_prev_video.triggered.connect(self.get_find_date)
         self.show_alert(1)
 
