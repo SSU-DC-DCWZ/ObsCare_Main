@@ -42,6 +42,7 @@ class WindowClass(QMainWindow, form_class):
             self.PrevVideo = PrevVideo()
             self.PrevVideo.show()
 
+
     def show_alert(self, code):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
         self.alert_browser.setPlainText("print the logs")
