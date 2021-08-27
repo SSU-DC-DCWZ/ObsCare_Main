@@ -5,13 +5,10 @@ import errno
 
 # 영상에 대한 DB 처리 클래스
 class DBvideo:
-    def __init__(self, num, time, path=None): # num=DB 작업할 카메라 번호, time=datetime.datetime.now(), path=동영상의 절대 경로
+    def __init__(self, num=None, time=None, path=None): # num=DB 작업할 카메라 번호, time=datetime.datetime.now(), path=동영상의 절대 경로
         self.now = time
         self.camnum = num
         self.path = path
-        if self.path == None: # 검색기능의 클래스 선언에서는 path 인자 없음
-                self.findtime = time
-                self.findnum = num
         self.connectdb()
 
     def __del__(self):

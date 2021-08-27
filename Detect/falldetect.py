@@ -28,9 +28,10 @@ from PyQt5 import QtGui
 
 class model(QtCore.QObject):
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
-    def __init__(self, classes, camNum, parent=None):
+    def __init__(self, classes, camNum, alert_browser, parent=None):
         super(model, self).__init__(parent)
         modelpath = os.path.join("c:", os.sep, "Users", "lcs07", "PycharmProjects", "ObsCure", "Detect", "best.pt")
+        self.alert = alert_browser
         self.weights = modelpath
         self.source = str(camNum) # 
         self.imgsz = 640
@@ -184,6 +185,7 @@ class model(QtCore.QObject):
         cv2.imwrite(path, self.im0)
         im = logDB.DBlog(now, situation, self.source, path)
         im.makerecord()
+        self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : {situation}\n")
         del im
 
     def runInference(self, path, img):
