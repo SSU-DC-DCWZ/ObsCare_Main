@@ -7,7 +7,8 @@ block_cipher = None
 added_file = [('./ui/main.ui','./ui'),
               ('./ui/prev_player.ui','./ui'),
               ('./utils/torch_utils.py','./utils'),
-              ('./utils/google_utils.py','./utils')]
+              ('./utils/google_utils.py','./utils'),
+              ('./Detect/best.pt','./Detect')]
 hiddenimport = [('PyQt5.QtMultimediaWidgets')]
 a = Analysis(['main.py'],
              pathex=['C:\\Users\\lcs07\\PycharmProjects\\ObsCure'],

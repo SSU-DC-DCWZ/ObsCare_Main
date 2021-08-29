@@ -50,7 +50,7 @@ class model(QtCore.QObject):
         self.conf_thres = 0.45
         self.iou_thres = 0.45
         self.max_det=1000  # maximum detections per image
-        self.device='cpu'  # cuda device, i.e. 0 or 0,1,2,3 or cpu
+        self.device=''  # cuda device, i.e. 0 or 0,1,2,3 or cpu
         self.view_img=True  # show results
         self.save_txt=False # save results to *.txt
         self.save_conf=False  # save confidences in --save-txt labels
