@@ -25,14 +25,26 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 
+import threading
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+weights = './Detect/best.pt'
+weights = resource_path(weights)
+if os.path.isfile(weights):
+    pass
+else:
+    weights="./Detect/best.pt"
 
 class model(QtCore.QObject):
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
     def __init__(self, classes, camNum, alert_browser, parent=None):
         super(model, self).__init__(parent)
-        modelpath = os.path.join("c:", os.sep, "Users", "lcs07", "PycharmProjects", "ObsCure", "Detect", "best.pt")
         self.alert = alert_browser
-        self.weights = modelpath
+        self.weights = weights
         self.source = str(camNum) # 
         self.imgsz = 640
         self.conf_thres = 0.45
