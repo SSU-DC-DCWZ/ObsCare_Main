@@ -180,6 +180,10 @@ class model(QtCore.QObject):
         self.VideoSignal.emit(qt_image1)  # 시그널 보내기,,,?
         self.out.write(self.im0)
 
+        loop = QtCore.QEventLoop()
+        QtCore.QTimer.singleShot(25, loop.quit)  # 25 ms
+        loop.exec_()
+
         # cv2.destroyAllWindows()
         # if cv2.waitKey(1) == 27:
         #     self.running = False
