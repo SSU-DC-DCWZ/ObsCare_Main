@@ -71,18 +71,15 @@ class model(QtCore.QObject):
         self.half=False
         self.running = False
         self.loadModel()
+        self.list =[]
 
     def __del__(self):
         self.stop()
 
     @torch.no_grad()
     def loadModel(self):
-        self.save_img = not self.nosave and not self.source.endswith('.txt')  # save inference images
         self.webcam = self.source.isnumeric() or self.source.endswith('.txt') or self.source.lower().startswith(
             ('rtsp://', 'rtmp://', 'http://', 'https://'))
-        # Directories
-        self.save_dir = increment_path(Path(self.project) / self.name, exist_ok= False)  # increment run
-        (self.save_dir / 'labels' if self.save_txt else self.save_dir).mkdir(parents=True, exist_ok=True)  # make dir
         # Initialize
         set_logging()
         self.device = select_device(self.device)
@@ -129,7 +126,6 @@ class model(QtCore.QObject):
         # Run inference
         if self.device.type != 'cpu':
             self.model(torch.zeros(1, 3, self.imgsz, self.imgsz).to(self.device).type_as(next(self.model.parameters())))  # run once
-        t0 = time.time()
         for path, img, im0s, vid_cap in self.dataset:
             if self.running == False:
                 self.stop()
@@ -146,8 +142,11 @@ class model(QtCore.QObject):
                 # cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (555,470), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
                 # cv2.putText(self.im0, 'CAM' + str(0), (575,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
                 # Print time (inference + NMS)
-                if self.c >= 1:
-                    self.writeLog(self.s)
+
+                if self.c == 1:
+                    self.falldetection()
+
+                if self.c >= 2:
                     self.screenshot(self.c)
 
                 # Stream results
@@ -159,21 +158,31 @@ class model(QtCore.QObject):
                 self.stop()
                 self.start()
 
-    def writeLog(self, name):
-        print(f'time, camNum, {name}')
+    def falldetection(self):
+        now = datetime.datetime.now()
+        self.list.append(now)
+
+        if len(self.list) >= 2:
+            time = self.time[-1] - self.list[0]
+
+        else:
+            time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
+
+        if int(time.total_seconds()) >= 6:
+            self.list = []  # 시간 초기화
+
+        if int(time.total_seconds()) >= 5:
+            print("fall is detected")
+            self.list = []  # 시간 초기화
 
     def loadVideo(self, path):
-        # global image
-
-        # cv2.imshow(path, self.im0)
-
         image = self.im0
         hi, wi = image.shape[:2]
         # 출력 형태 결정
         color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         color_swapped_image = cv2.filp(color_swapped_image, 1)  # 좌우반전
         color_swapped_image = cv2.flip(color_swapped_image, 0)  # 상하반전
-        
+
         qt_image1 = QtGui.QImage(color_swapped_image.data,
                                  wi,
                                  hi,
@@ -213,13 +222,11 @@ class model(QtCore.QObject):
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
         # Inference
-        t1 = time_sync()
         pred = self.model(img,
                      augment=self.augment,
                      visualize=increment_path(self.save_dir / Path(path).stem, mkdir=True) if self.visualize else False)[0]
         # Apply NMS
         pred = non_max_suppression(pred, self.conf_thres, self.iou_thres, self.classes, self.agnostic_nms, max_det=self.max_det)
-        t2 = time_sync()
         return pred
 
     def detection(self, i, det, path, img, im0s):
@@ -227,11 +234,8 @@ class model(QtCore.QObject):
             p, self.s, self.im0, frame = path[i], f'{i}: ', im0s[i].copy(), self.dataset.count
 
         self.p = Path(p)  # to Path
-        #save_path = str(self.save_dir / p.name)  # img.jpg
-        txt_path = str(self.save_dir / 'labels' / self.p.stem) + ('' if self.dataset.mode == 'image' else f'_{frame}')  # img.txt
         self.s += '%gx%g ' % img.shape[2:]  # print string
         self.c = 0
-        gn = torch.tensor(self.im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
         if len(det):
             # Rescale boxes from img_size to im0 size
             det[:, :4] = scale_coords(img.shape[2:], det[:, :4], self.im0.shape).round()
@@ -241,16 +245,16 @@ class model(QtCore.QObject):
                 self.s += f"{n} {self.names[int(c)]}{'s' * (n > 1)}, "  # add to stri   
             # Write results
             for *xyxy, conf, cls in reversed(det):
-                if self.save_txt:  # Write to file
-                    xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                    line = (cls, *xywh, conf) if self.save_conf else (cls, *xywh)  # label format
-                    with open(txt_path + '.txt', 'a') as f:
-                         f.write(('%g ' * len(line)).rstrip() % line + '\n')
-
-                if self.save_img or self.save_crop or self.view_img:  # Add bbox to image
-                    self.c = int(cls)  # integer class
-                    label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
-                    plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)
+                #if self.save_txt:  # Write to file
+                #    xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
+                #    line = (cls, *xywh, conf) if self.save_conf else (cls, *xywh)  # label format
+                #    with open(txt_path + '.txt', 'a') as f:
+                #         f.write(('%g ' * len(line)).rstrip() % line + '\n')
+#
+                #if self.save_img or self.save_crop or self.view_img:  # Add bbox to image
+                self.c = int(cls)  # integer class
+                label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
+                plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)
 
 class ImageViewer(QtWidgets.QWidget):
     def __init__(self, parent=None):
