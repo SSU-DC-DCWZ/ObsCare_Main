@@ -97,7 +97,6 @@ class model(QtCore.QObject):
     #요구사항2 수정
     def start(self):
         if self.webcam:
-            self.view_img = check_imshow()
             cudnn.benchmark = True  # set True to speed up constant image size inference
             self.dataset = LoadStreams(self.source, img_size=self.imgsz, stride=self.stride)
         self.width = self.dataset.w
