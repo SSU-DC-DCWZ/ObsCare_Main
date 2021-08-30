@@ -171,7 +171,9 @@ class model(QtCore.QObject):
         hi, wi = image.shape[:2]
         # 출력 형태 결정
         color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
+        color_swapped_image = cv2.filp(color_swapped_image, 1)  # 좌우반전
+        color_swapped_image = cv2.flip(color_swapped_image, 0)  # 상하반전
+        
         qt_image1 = QtGui.QImage(color_swapped_image.data,
                                  wi,
                                  hi,
