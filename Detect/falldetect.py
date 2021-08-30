@@ -250,3 +250,27 @@ class model(QtCore.QObject):
                     self.c = int(cls)  # integer class
                     label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
                     plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)
+
+class ImageViewer(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super(ImageViewer, self).__init__(parent)
+        self.image = QtGui.QImage()
+        self.setAttribute(QtCore.Qt.WA_OpaquePaintEvent)
+        self.setFixedSize(853, 480)
+
+    # 한 판에 하나 영상 띄우기 위한 그런거인듯
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        # 규격 안 맞으면 가운데에 위치시키기 위해 좌표 지정
+        painter.drawImage((self.width()-self.image.width())/2, (self.height()-self.image.height())/2, self.image)
+        self.image = QtGui.QImage()
+
+    @QtCore.pyqtSlot(QtGui.QImage)
+    def setImage(self, image):
+        if image.isNull():
+            print("Viewer Dropped frame!")
+
+        self.image = image
+        if image.size() != self.size():
+            self.setFixedSize(QtCore.QSize(853, 480))
+        self.update()

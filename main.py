@@ -2,8 +2,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from ui.play_ui import *
-from ui.open_video import *
-from Detect.falldetect import model
+from Detect.falldetect import model, ImageViewer
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
