@@ -35,7 +35,7 @@ class PrevVideo(QWidget):
         self.content = QMediaContent(QUrl.fromLocalFile(path))
         self.mp.setMedia(self.content)
         self.mp.play() # default state : video playing
-        self.state.setText("Playing")
+        self.state.setText("재생")
 
         self.play_signal = True
 
@@ -104,11 +104,11 @@ class PrevVideo(QWidget):
     def mediaStateChanged(self, state):
         msg = ''
         if state == QMediaPlayer.StoppedState:
-            msg = 'Stopped'
+            msg = '정지'
         elif state == QMediaPlayer.PlayingState:
-            msg = 'Playing'
+            msg = '재생'
         else:
-            msg = 'Paused'
+            msg = '일시정지'
         self.updateState(msg)
 
     def durationChanged(self, duration):
