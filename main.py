@@ -16,8 +16,14 @@ if __name__ == '__main__':
     # 두 개 대상으로 영상 틀기 위해,,, threading 수행하고자 했음
     thread1 = QtCore.QThread()
     thread1.start()
-    vid1 = model(None, 0, myWindow.alert_browser)
+    vid1 = model(None, 2, myWindow.alert_browser)
     vid1.moveToThread(thread1)
+
+    thread2 = QtCore.QThread()
+    thread2.start()
+    vid2 = model(None, 0, myWindow.alert_browser)
+    vid2.moveToThread(thread2)
+
 
     # thread2 = QtCore.QThread()
     # thread2.start()
@@ -31,14 +37,17 @@ if __name__ == '__main__':
     image_viewer4 = ImageViewer()
 
     vid1.VideoSignal.connect(image_viewer1.setImage)
-    # vid2.VideoSignal.connect(image_viewer2.setImage)
+    vid2.VideoSignal.connect(image_viewer2.setImage)
 
     # 영상 시작 (버튼 돌아가는 걸로 구현되어 있는데,,, 버튼 없애고 어케하는지 모르겠음)
     start_button = QtWidgets.QPushButton()
     start_button.clicked.connect(vid1.start)
+    start_button.click()
+    start_button1 = QtWidgets.QPushButton()
+    start_button1.clicked.connect(vid2.start)
+    start_button1.click()
     # start_button2 = QtWidgets.QPushButton()
     # start_button2.clicked.connect(vid2.start)
-    start_button.click()
     # start_button2.click()
 
     # 영상 layout인 video_layout에 영상 추가
