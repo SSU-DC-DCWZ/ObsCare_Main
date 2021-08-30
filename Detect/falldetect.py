@@ -24,6 +24,7 @@ from models.experimental import attempt_load
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
+from PyQt5.QtCore import pyqtSlot
 
 import threading
 
@@ -94,7 +95,6 @@ class model(QtCore.QObject):
 
     
     #요구사항2 수정
-    @QtCore.pyqtSlot()
     def start(self):
         if self.webcam:
             self.view_img = check_imshow()
@@ -265,7 +265,7 @@ class ImageViewer(QtWidgets.QWidget):
         painter.drawImage((self.width()-self.image.width())/2, (self.height()-self.image.height())/2, self.image)
         self.image = QtGui.QImage()
 
-    @QtCore.pyqtSlot(QtGui.QImage)
+    @pyqtSlot(QtGui.QImage)
     def setImage(self, image):
         if image.isNull():
             print("Viewer Dropped frame!")
