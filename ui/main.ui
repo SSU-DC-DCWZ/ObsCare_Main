@@ -119,22 +119,22 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionHome">
    <property name="text">
-    <string>Home</string>
+    <string>홈</string>
    </property>
   </action>
   <action name="action_prev_video">
    <property name="text">
-    <string>previous_video</string>
+    <string>이전 영상 확인</string>
    </property>
   </action>
   <action name="actionemergency">
    <property name="text">
-    <string>emergency</string>
+    <string>응급 호출</string>
    </property>
   </action>
   <action name="actionfront_desk">
    <property name="text">
-    <string>front desk</string>
+    <string>데스크 호출</string>
    </property>
   </action>
   <action name="actionPrevious_Video">

@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5 import QtCore
 from ui.play_prev import *
+from DB_video.videoDB import *
 import sys
 import os
 
@@ -35,11 +36,15 @@ class WindowClass(QMainWindow, form_class):
         info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (01-20210101) : ')
 
         if ok:
-            cam, date = info.split("-")
-            self.alert_browser.append("카메라 : " + cam)
-            self.alert_browser.append("일자 : " + date)
-            # self.PreVideo = PrevVideo(cam, date)
-            self.PrevVideo = PrevVideo()
+            self.cam, self.date = info.split('-')
+            finddb = DBvideo()
+            get_path = finddb.findrecord(self.cam, self.date)
+
+            if get_path == '':
+                QMessageBox.about(self, "Error!", "올바르지 않은 입력입니다.")
+                return self.get_find_date()
+
+            self.PrevVideo = PrevVideo(get_path)
             self.PrevVideo.show()
 
 
