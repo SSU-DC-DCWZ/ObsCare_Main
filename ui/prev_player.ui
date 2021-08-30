@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>VideoPlayer / Ocean Coding School</string>
+   <string>ObsCure_이전 영상 재생</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -43,14 +43,14 @@
          <item>
           <widget class="QLabel" name="state">
            <property name="text">
-            <string>Media Status</string>
+            <string>재생 상태</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="playtime">
            <property name="text">
-            <string>Running time</string>
+            <string>재생 시간</string>
            </property>
           </widget>
          </item>
@@ -94,14 +94,14 @@
          <item>
           <widget class="QPushButton" name="btn_change">
            <property name="text">
-            <string>Change Video</string>
+            <string>영상 전환</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btn_exit">
            <property name="text">
-            <string>Exit</string>
+            <string>나가기</string>
            </property>
           </widget>
          </item>
