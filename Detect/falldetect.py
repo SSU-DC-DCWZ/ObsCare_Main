@@ -164,17 +164,18 @@ class model(QtCore.QObject):
         print(f'time, camNum, {name}')
 
     def loadVideo(self, path):
-        global image
+        # global image
 
         # cv2.imshow(path, self.im0)
 
         image = self.im0
+        hi, wi = image.shape[:2]
         # 출력 형태 결정
         color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         qt_image1 = QtGui.QImage(color_swapped_image.data,
-                                 self.width,
-                                 self.height,
+                                 wi,
+                                 hi,
                                  color_swapped_image.strides[0],
                                  QtGui.QImage.Format_RGB888)
         self.VideoSignal.emit(qt_image1)  # 시그널 보내기,,,?
