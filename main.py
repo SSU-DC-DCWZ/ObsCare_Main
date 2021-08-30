@@ -65,5 +65,5 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer3, 0, 1)
     myWindow.video_layout.addWidget(image_viewer4, 1, 0)
 
-    myWindow.showMaximized()
+    myWindow.showFullScreen()
     sys.exit(app.exec_())
