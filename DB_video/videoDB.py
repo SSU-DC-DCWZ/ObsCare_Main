@@ -32,7 +32,6 @@ class DBvideo:
         self.conn.execute("INSERT INTO video_" + str(self.camnum) + " VALUES(?,?)", (self.now.strftime('%Y%m%d'), self.path))
         self.conn.commit()
         self.delrecord() # 레코드 생성할 때는 일자가 바뀌었다는 뜻이므로 동시에 레코드 삭제 수행
-        self.conn.close()
 
     def findrecord(self,cam,day): # 레코드 검색 함수
         # 입력받은 일자에 해당하는 레코드 검색
@@ -41,7 +40,7 @@ class DBvideo:
             path = self.cur.fetchone()[1]
         except TypeError: # path가 없을 경우 빈 문자열 반환(상위 레벨에서 비어있을 경우에 해당하는 처리 필요)
             path = ''
-        self.closedb()
+        self.conn.commit()
         return path # 해당 동영상 파일의 경로 반환
 
     # 해당 동영상 파일의 경로 반환
