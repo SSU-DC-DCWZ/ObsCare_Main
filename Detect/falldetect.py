@@ -139,12 +139,12 @@ class model(QtCore.QObject):
             for i, det in enumerate(pred):  # detections per image
                 self.detection(i, det, path, img, im0s)
                 showtime = datetime.datetime.now()
-                # cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
-                # cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (1200,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
-                # cv2.putText(self.im0, 'CAM' + str(0), (1200,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
-                cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10, 470), cv2.FONT_HERSHEY_DUPLEX, 0.5,(255, 255, 255))
-                cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (555,470), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
-                cv2.putText(self.im0, 'CAM' + str(0), (575,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
+                cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
+                cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (1200,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
+                cv2.putText(self.im0, 'CAM' + str(0), (1200,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
+                # cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10, 470), cv2.FONT_HERSHEY_DUPLEX, 0.5,(255, 255, 255))
+                # cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (555,470), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
+                # cv2.putText(self.im0, 'CAM' + str(0), (575,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
                 # Print time (inference + NMS)
                 if self.c >= 1:
                     self.writeLog(self.s)
