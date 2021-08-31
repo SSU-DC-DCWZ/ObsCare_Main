@@ -73,6 +73,7 @@ class model(QtCore.QObject):
         self.list =[]
 
     def __del__(self):
+        print("end")
         self.stop()
 
     @torch.no_grad()
@@ -151,7 +152,7 @@ class model(QtCore.QObject):
                     self.loadVideo(str(self.p))
 
             now = datetime.datetime.now()
-            if now.strftime('%H%M%S') == '000000':  # 일단위 저장을 위해 00시 00분 00초가 되면 스트리밍을 멈추고 재시작
+            if now.strftime('%H%M%S') == '164810':  # 일단위 저장을 위해 00시 00분 00초가 되면 스트리밍을 멈추고 재시작
                 self.stop()
                 self.start()
 

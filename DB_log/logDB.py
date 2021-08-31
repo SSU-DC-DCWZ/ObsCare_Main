@@ -42,13 +42,18 @@ class DBlog:
         self.conn.commit()
 
     def findrecord(self,cam,day): # 레코드 검색 함수
-        # 입력받은 일자에 해당하는 레코드 검색
+        #테이블 존재 여부 확인
         self.cur.execute("SELECT * FROM log_" + str(cam) + " WHERE day=" + str(day))
-        try:
-            path = self.cur.fetchone()[1]
-        except TypeError: # path가 없을 경우 빈 문자열 반환(상위 레벨에서 비어있을 경우에 해당하는 처리 필요)
+        if self.cur.fetchone()[0] == 1:
+            # 입력받은 일자에 해당하는 레코드 검색
+            self.cur.execute("SELECT * FROM video_" + str(cam) + " WHERE day=" + str(day))
+            try:
+                path = self.cur.fetchone()[1]
+            except TypeError:  # path가 없을 경우 빈 문자열 반환(상위 레벨에서 비어있을 경우에 해당하는 처리 필요)
+                path = ''
+        else:
             path = ''
-        self.closedb()
+        self.conn.commit()
         return path # 해당 동영상 파일의 경로 반환
 
     def delrecord(self): # 저장기한 만료된 스크린샷에 대한 DB 처리 및 삭제 함수

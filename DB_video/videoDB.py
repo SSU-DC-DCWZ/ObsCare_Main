@@ -34,11 +34,16 @@ class DBvideo:
         self.delrecord() # 레코드 생성할 때는 일자가 바뀌었다는 뜻이므로 동시에 레코드 삭제 수행
 
     def findrecord(self,cam,day): # 레코드 검색 함수
-        # 입력받은 일자에 해당하는 레코드 검색
-        self.cur.execute("SELECT * FROM video_" + str(cam) + " WHERE day=" + str(day))
-        try:
-            path = self.cur.fetchone()[1]
-        except TypeError: # path가 없을 경우 빈 문자열 반환(상위 레벨에서 비어있을 경우에 해당하는 처리 필요)
+        #테이블 존재 여부 확인
+        self.cur.execute(f"SELECT COUNT(*) FROM sqlite_master WHERE name='video_{str(cam)}'")
+        if self.cur.fetchone()[0] == 1:
+            # 입력받은 일자에 해당하는 레코드 검색
+            self.cur.execute("SELECT * FROM video_" + str(cam) + " WHERE day=" + str(day))
+            try:
+                path = self.cur.fetchone()[1]
+            except TypeError:  # path가 없을 경우 빈 문자열 반환(상위 레벨에서 비어있을 경우에 해당하는 처리 필요)
+                path = ''
+        else:
             path = ''
         self.conn.commit()
         return path # 해당 동영상 파일의 경로 반환
