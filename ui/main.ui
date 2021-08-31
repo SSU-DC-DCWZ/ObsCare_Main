@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1243</width>
-    <height>863</height>
+    <width>1093</width>
+    <height>778</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -89,7 +89,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1243</width>
+     <width>1093</width>
      <height>26</height>
     </rect>
    </property>
@@ -116,7 +116,6 @@
    <addaction name="menu_2"/>
    <addaction name="menu_3"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionHome">
    <property name="text">
     <string>홈</string>
