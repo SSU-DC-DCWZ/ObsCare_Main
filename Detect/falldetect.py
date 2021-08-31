@@ -135,6 +135,8 @@ class model(QtCore.QObject):
             for i, det in enumerate(pred):  # detections per image
                 self.detection(i, det, path, img, im0s)
                 showtime = datetime.datetime.now()
+                self.im0 = cv2.flip(self.im0, 1)  # 좌우반전
+                self.im0 = cv2.flip(self.im0, 0)  # 상하반전
                 cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
                 cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (1200,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
                 cv2.putText(self.im0, 'CAM' + str(0), (1200,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
@@ -180,8 +182,8 @@ class model(QtCore.QObject):
         hi, wi = image.shape[:2]
         # 출력 형태 결정
         color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        color_swapped_image = cv2.flip(color_swapped_image, 1)  # 좌우반전
-        color_swapped_image = cv2.flip(color_swapped_image, 0)  # 상하반전
+        # color_swapped_image = cv2.flip(color_swapped_image, 1)  # 좌우반전
+        # color_swapped_image = cv2.flip(color_swapped_image, 0)  # 상하반전
 
         qt_image1 = QtGui.QImage(color_swapped_image.data,
                                  wi,
