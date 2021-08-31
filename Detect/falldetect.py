@@ -73,6 +73,7 @@ class model(QtCore.QObject):
         self.list =[]
 
     def __del__(self):
+        print("end")
         self.stop()
 
     @torch.no_grad()
