@@ -77,7 +77,7 @@ class PrevVideo(QWidget):
                 return self.change_file()
 
             self.hide()
-            self.PrevVideo = PrevVideo(get_path)
+            self.PrevVideo = PrevVideo(os.path.abspath(get_path))
             self.PrevVideo.show()
 
 
