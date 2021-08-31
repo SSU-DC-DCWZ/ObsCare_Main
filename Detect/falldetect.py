@@ -144,7 +144,7 @@ class model(QtCore.QObject):
                     self.falldetection()
 
                 if self.c >= 2:
-                    self.screenshot(self.c)
+                    self.objectdection(self.c)
 
                 # Stream results
                 if self.view_img:
@@ -170,6 +170,25 @@ class model(QtCore.QObject):
 
         if int(time.total_seconds()) >= 5:
             print("fall is detected")
+            self.screenshot(self.c)
+            self.list = []  # 시간 초기화
+
+    def objectdection(self):
+
+        now = datetime.datetime.now()
+        self.list.append(now)
+
+        if len(self.list) >= 2:
+            time = self.list[-1] - self.list[0]
+
+        else:
+            time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
+
+        if int(time.total_seconds()) >= 10:
+            self.list = []  # 시간 초기화
+
+        if int(time.total_seconds()) >= 2:
+            print(f'{self.c} is detected')
             self.screenshot(self.c)
             self.list = []  # 시간 초기화
 
