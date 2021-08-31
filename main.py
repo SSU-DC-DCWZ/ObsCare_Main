@@ -9,10 +9,6 @@ if __name__ == '__main__':
     # WindowClass의 인스턴스 생성
     myWindow = WindowClass()
 
-    screen_size = app.desktop().screenGeometry()
-    width, height = screen_size.width(), screen_size.height()
-    myWindow.setFixedSize(width, height-50)
-
     # 두 개 대상으로 영상 틀기 위해,,, threading 수행하고자 했음
     thread1 = QtCore.QThread()
     thread1.start()
