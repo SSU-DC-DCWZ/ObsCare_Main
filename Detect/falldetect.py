@@ -269,7 +269,8 @@ class ImageViewer(QtWidgets.QWidget):
     def paintEvent(self, event):
         painter = QtGui.QPainter(self)
         # 규격 안 맞으면 가운데에 위치시키기 위해 좌표 지정
-        painter.drawImage((self.width()-self.image.width())/2, (self.height()-self.image.height())/2, self.image)
+        painter.drawImage(self.rect(), self.image)
+        # painter.drawImage((self.width()-self.image.width())/2, (self.height()-self.image.height())/2, self.image)
         self.image = QtGui.QImage()
 
     @pyqtSlot(QtGui.QImage)
