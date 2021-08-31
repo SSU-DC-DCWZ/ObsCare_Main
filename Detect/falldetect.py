@@ -108,7 +108,7 @@ class model(QtCore.QObject):
             if e.errno != errno.EEXIST:
                 print("Dir error")
             raise
-        codec = cv2.VideoWriter_fourcc('M', 'P', '4', 'S')
+        codec = cv2.VideoWriter_fourcc('X','V','I','D')
         self.out = cv2.VideoWriter(self.savename, codec, fps, ((int(self.width)), (int(self.height))))
         db = videoDB.DBvideo(self.source, self.starttime, self.savename)
         db.makerecord()
