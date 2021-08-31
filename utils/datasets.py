@@ -295,15 +295,15 @@ class LoadStreams:  # multiple IP or RTSP cameras
                 import pafy
                 s = pafy.new(s).getbest(preftype="mp4").url  # YouTube URL
             s = eval(s) if s.isnumeric() else s  # i.e. s = '0' local webcam
-            cap = cv2.VideoCapture(s)
-            assert cap.isOpened(), f'Failed to open {s}'
-            self.w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-            self.h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            self.fps[i] = max(cap.get(cv2.CAP_PROP_FPS) % 100, 0) or 30.0  # 30 FPS fallback
-            self.frames[i] = max(int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), 0) or float('inf')  # infinite stream fallback
+            self.cap = cv2.VideoCapture(s)
+            assert self.cap.isOpened(), f'Failed to open {s}'
+            self.w = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            self.h = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            self.fps[i] = max(self.cap.get(cv2.CAP_PROP_FPS) % 100, 0) or 30.0  # 30 FPS fallback
+            self.frames[i] = max(int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT)), 0) or float('inf')  # infinite stream fallback
 
-            _, self.imgs[i] = cap.read()  # guarantee first frame
-            self.threads[i] = Thread(target=self.update, args=([i, cap]), daemon=True)
+            _, self.imgs[i] = self.cap.read()  # guarantee first frame
+            self.threads[i] = Thread(target=self.update, args=([i, self.cap]), daemon=True)
             print(f" success ({self.frames[i]} frames {self.w}x{self.h} at {self.fps[i]:.2f} FPS)")
             self.threads[i].start()
         print('')  # newline
