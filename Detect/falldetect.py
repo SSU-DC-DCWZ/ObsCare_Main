@@ -120,7 +120,7 @@ class model(QtCore.QObject):
     def stop(self):
         print("stop")
         self.running = False
-        self.dataset.cap.release()
+        self.out.release()
 
     def run(self):
         # Run inference
