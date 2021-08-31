@@ -101,7 +101,7 @@ class model(QtCore.QObject):
         fps = self.dataset.fps[0]
         now = datetime.datetime.now()
         self.starttime = datetime.datetime.now()
-        self.savename = "./data/Recording/" + self.source + "/" + now.strftime('%Y%m%d') + ".avi"
+        self.savename = "./data/Recording/" + self.source + "/" + now.strftime('%Y%m%d') + ".mp4"
         try:  # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
             if not (os.path.isdir("./data/Recording/" + self.source)):
                 os.makedirs(os.path.join("./data/Recording/" + self.source))
@@ -109,7 +109,7 @@ class model(QtCore.QObject):
             if e.errno != errno.EEXIST:
                 print("Dir error")
             raise
-        codec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+        codec = cv2.VideoWriter_fourcc(*'mp4v')
         self.out = cv2.VideoWriter(self.savename, codec, fps, ((int(self.width)), (int(self.height))))
         db = videoDB.DBvideo(self.source, self.starttime, self.savename)
         db.makerecord()
