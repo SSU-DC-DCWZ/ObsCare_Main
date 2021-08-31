@@ -121,6 +121,7 @@ class model(QtCore.QObject):
         print("stop")
         self.running = False
         self.out.release()
+        del self.dataset
 
     def run(self):
         # Run inference
