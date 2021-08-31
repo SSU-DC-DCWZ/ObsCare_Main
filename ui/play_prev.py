@@ -63,12 +63,17 @@ class PrevVideo(QWidget):
         info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (01-20210101) : ')
 
         if ok:
-            self.cam, self.date = info.split('-')
+            try :
+                self.cam, self.date = info.split('-')
+            except ValueError:
+                QMessageBox.about(self, "Error!", "올바르지 않은 입력입니다.")
+                return self.change_file()
+            
             finddb = DBvideo()
             get_path = finddb.findrecord(self.cam, self.date)
 
             if get_path == '':
-                QMessageBox.about(self, "Error!", "올바르지 않은 입력입니다.")
+                QMessageBox.about(self, "Error!", "해당 입력에 대한 파일이 존재하지 않습니다.")
                 return self.change_file()
 
             self.hide()
