@@ -26,7 +26,6 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
 
-import threading
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -140,10 +139,6 @@ class model(QtCore.QObject):
                 cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
                 cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (1200,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
                 cv2.putText(self.im0, 'CAM' + str(0), (1200,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
-                # cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10, 470), cv2.FONT_HERSHEY_DUPLEX, 0.5,(255, 255, 255))
-                # cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (555,470), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
-                # cv2.putText(self.im0, 'CAM' + str(0), (575,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255)) #스트리밍 화면에 시간, 카메라번호 출력
-                # Print time (inference + NMS)
 
                 if self.c == 1:
                     self.falldetection()
@@ -175,6 +170,7 @@ class model(QtCore.QObject):
 
         if int(time.total_seconds()) >= 5:
             print("fall is detected")
+            self.screenshot(self.c)
             self.list = []  # 시간 초기화
 
     def loadVideo(self, path):
@@ -182,9 +178,6 @@ class model(QtCore.QObject):
         hi, wi = image.shape[:2]
         # 출력 형태 결정
         color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        # color_swapped_image = cv2.flip(color_swapped_image, 1)  # 좌우반전
-        # color_swapped_image = cv2.flip(color_swapped_image, 0)  # 상하반전
-
         qt_image1 = QtGui.QImage(color_swapped_image.data,
                                  wi,
                                  hi,
@@ -196,10 +189,6 @@ class model(QtCore.QObject):
         loop = QtCore.QEventLoop()
         QtCore.QTimer.singleShot(25, loop.quit)  # 25 ms
         loop.exec_()
-
-        # cv2.destroyAllWindows()
-        # if cv2.waitKey(1) == 27:
-        #     self.running = False
 
     def screenshot(self, situation):
         now = datetime.datetime.now()
@@ -247,13 +236,6 @@ class model(QtCore.QObject):
                 self.s += f"{n} {self.names[int(c)]}{'s' * (n > 1)}, "  # add to stri   
             # Write results
             for *xyxy, conf, cls in reversed(det):
-                #if self.save_txt:  # Write to file
-                #    xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                #    line = (cls, *xywh, conf) if self.save_conf else (cls, *xywh)  # label format
-                #    with open(txt_path + '.txt', 'a') as f:
-                #         f.write(('%g ' * len(line)).rstrip() % line + '\n')
-#
-                #if self.save_img or self.save_crop or self.view_img:  # Add bbox to image
                 self.c = int(cls)  # integer class
                 label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
                 plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)

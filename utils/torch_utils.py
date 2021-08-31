@@ -25,6 +25,10 @@ except ImportError:
     thop = None
 LOGGER = logging.getLogger(__name__)
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 @contextmanager
 def torch_distributed_zero_first(local_rank: int):
@@ -45,11 +49,6 @@ def init_torch_seeds(seed=0):
         cudnn.benchmark, cudnn.deterministic = False, True
     else:  # faster, less reproducible
         cudnn.benchmark, cudnn.deterministic = True, False
-
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
 
 def date_modified(path=__file__):
     # return human-readable file modification date, i.e. '2021-3-26'
