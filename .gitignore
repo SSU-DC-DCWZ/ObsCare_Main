@@ -1,0 +1,8 @@
+.idea
+__pycache__
+data
+db
+build
+venv
+dist
+runs
