@@ -160,7 +160,7 @@ class model(QtCore.QObject):
         self.list.append(now)
 
         if len(self.list) >= 2:
-            time = self.time[-1] - self.list[0]
+            time = self.list[-1] - self.list[0]
 
         else:
             time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
