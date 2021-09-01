@@ -60,7 +60,7 @@ class PrevVideo(QWidget):
         self.mp.positionChanged.connect(self.positionChanged)
 
     def change_file(self):
-        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (01-20210101) : ')
+        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (0-20210101) : ')
 
         if ok:
             try :
