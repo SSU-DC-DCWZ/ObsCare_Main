@@ -140,7 +140,7 @@ class model(QtCore.QObject):
                     self.falldetection()
 
                 if self.c >= 2:
-                    self.objectdection(self.c)
+                    self.objectdection()
 
                 # Stream results
                 if self.view_img:

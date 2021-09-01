@@ -62,4 +62,9 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer4, 1, 0)
 
     myWindow.showFullScreen()
-    sys.exit(app.exec_())
+    app.exec_()
+    vid1.stop()
+    vid2.stop()
+    vid3.stop()
+    vid4.stop()
+    sys.exit()
