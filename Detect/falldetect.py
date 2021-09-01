@@ -107,6 +107,7 @@ class model(QtCore.QObject):
             raise
         codec = cv2.VideoWriter_fourcc('D', 'I', 'V', 'X')
         self.out = cv2.VideoWriter(self.savename, codec, fps, ((int(self.width)), (int(self.height))))
+        # DB에 동영상 관련 정보 저장
         db = videoDB.DBvideo(self.source, self.starttime, self.savename)
         db.makerecord()
         del db
