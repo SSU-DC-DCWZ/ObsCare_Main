@@ -202,7 +202,7 @@ class model(QtCore.QObject):
                                  color_swapped_image.strides[0],
                                  QtGui.QImage.Format_RGB888)
         self.VideoSignal.emit(qt_image1)  # 시그널 보내기,,,?
-        self.out.write(color_swapped_image.data)
+        self.out.write(self.im0)
 
         loop = QtCore.QEventLoop()
         QtCore.QTimer.singleShot(25, loop.quit)  # 25 ms
