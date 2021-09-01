@@ -114,9 +114,9 @@ class model(QtCore.QObject):
         self.run()
 
     def stop(self):
+        self.running = False
         self.out.release()
         del self.dataset
-        print("stop")
 
     def run(self):
         # Run inference
@@ -124,7 +124,6 @@ class model(QtCore.QObject):
             self.model(torch.zeros(1, 3, self.imgsz, self.imgsz).to(self.device).type_as(next(self.model.parameters())))  # run once
         for path, img, im0s, vid_cap in self.dataset:
             if self.running == False:
-                self.stop()
                 break
             pred = self.runInference(path, img)
 
