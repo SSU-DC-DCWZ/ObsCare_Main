@@ -12,7 +12,7 @@ class DBvideo:
         self.connectdb()
 
     def __del__(self):
-        pass
+        self.closedb()
 
     def connectdb(self): # DB파일 선언 및 테이블 없을 경우 테이블 생성하는 함수
         try:  # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
@@ -30,8 +30,8 @@ class DBvideo:
 
     def makerecord(self): #레코드(TIME, PATH)생성 함수
         self.conn.execute("INSERT INTO video_" + str(self.camnum) + " VALUES(?,?)", (self.now.strftime('%Y%m%d'), self.path))
-        self.conn.commit()
         self.delrecord() # 레코드 생성할 때는 일자가 바뀌었다는 뜻이므로 동시에 레코드 삭제 수행
+        self.conn.commit()
 
     def findrecord(self,cam,day): # 레코드 검색 함수
         #테이블 존재 여부 확인
