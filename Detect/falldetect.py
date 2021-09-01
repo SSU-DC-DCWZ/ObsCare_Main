@@ -117,7 +117,7 @@ class model(QtCore.QObject):
         self.run()
 
     def stop(self):
-        self.running = False
+        self.out.release()
         del self.dataset
 
     def run(self):
