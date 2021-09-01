@@ -6,4 +6,3 @@ build
 venv
 dist
 runs
-test.py

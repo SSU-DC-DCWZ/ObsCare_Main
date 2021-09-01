@@ -41,7 +41,7 @@ else:
 
 class model(QtCore.QObject):
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
-    def __init__(self, classes, camNum, alert_browser, parent=None):
+    def __init__(self, classes, camNum, alert_browser=None, parent=None):
         super(model, self).__init__(parent)
         self.alert = alert_browser
         self.weights = weights
