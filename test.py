@@ -63,4 +63,4 @@ if __name__ == '__main__':
 
     myWindow.showFullScreen()
     app.exec_()
-    del vid1
+    vid1.stop()

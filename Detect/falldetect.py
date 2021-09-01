@@ -72,9 +72,6 @@ class model(QtCore.QObject):
         self.loadModel()
         self.list =[]
 
-    def __del__(self):
-        self.stop()
-
     @torch.no_grad()
     def loadModel(self):
         self.webcam = self.source.isnumeric() or self.source.endswith('.txt') or self.source.lower().startswith(
@@ -119,6 +116,7 @@ class model(QtCore.QObject):
     def stop(self):
         self.out.release()
         del self.dataset
+        print("stop")
 
     def run(self):
         # Run inference
