@@ -108,7 +108,7 @@ class model(QtCore.QObject):
             if e.errno != errno.EEXIST:
                 print("Dir error")
             raise
-        codec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+        codec = cv2.VideoWriter_fourcc('D', 'I', 'V', 'X')
         self.out = cv2.VideoWriter(self.savename, codec, fps, ((int(self.width)), (int(self.height))))
         db = videoDB.DBvideo(self.source, self.starttime, self.savename)
         db.makerecord()
@@ -202,7 +202,7 @@ class model(QtCore.QObject):
                                  color_swapped_image.strides[0],
                                  QtGui.QImage.Format_RGB888)
         self.VideoSignal.emit(qt_image1)  # 시그널 보내기,,,?
-        self.out.write(self.im0)
+        self.out.write(color_swapped_image.data)
 
         loop = QtCore.QEventLoop()
         QtCore.QTimer.singleShot(25, loop.quit)  # 25 ms
