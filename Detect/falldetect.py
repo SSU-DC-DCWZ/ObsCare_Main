@@ -17,11 +17,13 @@ sys.path.append(FILE.parents[0].as_posix())  # add yolov5/ to path
 
 # 본 프로젝트는 YOLOv5 및 deepSORT를 바탕으로 object detection model을 custom train 시킨 모델을 사용합니다.
 # YOLOv5 와 deepSORT의 라이브러리 함수들을 import해 fall detection 및 specific obeject detection 및 alert 에 필요한 parameter를 가져올 수 있게 합니다.
+from models.experimental import attempt_load
 from utils.datasets import LoadStreams
 from utils.general import check_img_size, check_imshow,non_max_suppression, scale_coords, xyxy2xywh,set_logging, increment_path
 from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device,time_sync
-from models.experimental import attempt_load
+from deep_sort.deep_sort import DeepSort
+from utils.parser import get_config
 
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
@@ -45,13 +47,19 @@ if os.path.isfile(weights):
 else:
     weights="./Detect/best.pt"
 
+# compute_color_for_id : 각 바운딩박스별 id로 색상을 생성해주는 함수입니다.
+def compute_color_for_id(label):
+    palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
+
+    color = [int((p * (label ** 2 - label + 1)) % 255) for p in palette]
+    return tuple(color)
+
 # model: cctv 스트리밍과 상황 감지와 감지한 상황에 대한 처리 클래스
 # 상황번호 0 -
 # 상황번호 1 -
 # 상황번호 2 -
 # 상황번호 3 -
 # 상황번호 4 -
-
 # model 클래스 : 학습된 모델이 웹캠의 영상을 읽어와 추론하고, 추론된 결과에 따라 바운딩 박스를 그려줍니다.
 class model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
@@ -72,23 +80,11 @@ class model(QtCore.QObject):
         self.iou_thres = 0.45
         self.max_det=1000  # maximum detections per image
         self.device=''  # cuda device, i.e. 0 or 0,1,2,3 or cpu
-        self.view_img=True  # show results
-        self.save_txt=False # save results to *.txt
-        self.save_conf=False  # save confidences in --save-txt labels
-        self.save_crop=False  # save cropped prediction boxes
-        self.nosave=False  # do not save images/videos
         self.classes=classes # filter by class: --class 0, or --class 0 2 3
-        self.agnostic_nms=False  # class-agnostic NMS
+        self.agnostic_nms=True  # class-agnostic NMS
         self.augment=False  # augmented inference
         self.visualize=False  # visualize features
-        self.update=False  # update all models
-        self.project='./runs/detect'  # save results to project/name
-        self.name='exp'  # save results to project/name
-        self.exist_ok=False  # existing project/name ok, do not increment
-        self.line_thickness=3  # bounding box thickness (pixels)
-        self.hide_labels=False  # hide labels
-        self.hide_conf=False  # hide confidences
-        self.half=False
+        self.half=True
         self.running = False
         self.loadModel()
         self.list =[]
@@ -96,17 +92,28 @@ class model(QtCore.QObject):
     # loadModel() :
     @torch.no_grad()
     def loadModel(self):
-        self.webcam = self.source.isnumeric() or self.source.endswith('.txt') or self.source.lower().startswith(
-            ('rtsp://', 'rtmp://', 'http://', 'https://'))
+        self.webcam = self.source.isnumeric()
         # Initialize
         set_logging()
         self.device = select_device(self.device)
+        self.half &= self.device.type != 'cpu'  # half precision only supported on CUDA
         # Load model
         self.model = attempt_load(self.weights, map_location=self.device)  # load FP32 model
         self.stride = int(self.model.stride.max())  # model stride
         self.imgsz = check_img_size(self.imgsz, s=self.stride)  # check image size
         self.names = self.model.module.names if hasattr(self.model, 'module') else self.model.names  # get class names
+        self.model.half()
         self.classify = False
+
+
+        cfg = get_config()
+        cfg.merge_from_file("./deep_sort/deep_sort.yaml")
+        #attempt_download(deep_sort_weights, repo='mikel-brostrom/Yolov5_DeepSort_Pytorch')
+        self.deepsort = DeepSort(cfg.DEEPSORT.REID_CKPT,
+                        max_dist=cfg.DEEPSORT.MAX_DIST, min_confidence=cfg.DEEPSORT.MIN_CONFIDENCE,
+                        nms_max_overlap=cfg.DEEPSORT.NMS_MAX_OVERLAP, max_iou_distance=cfg.DEEPSORT.MAX_IOU_DISTANCE,
+                        max_age=cfg.DEEPSORT.MAX_AGE, n_init=cfg.DEEPSORT.N_INIT, nn_budget=cfg.DEEPSORT.NN_BUDGET,
+                        use_cuda=True)
 
     
     # start() : 스트리밍 시작 설정 함수
@@ -179,9 +186,8 @@ class model(QtCore.QObject):
                 if self.c >= 2:
                     self.objectdection()
 
-                # 프레임 존재 시 프레임 출력
-                if self.view_img:
-                    self.loadVideo()
+                # 비디오 출력
+                self.loadVideo()
             # 일단위 저장을 위해 00시 00분 00초가 되면 스트리밍을 멈추고 저장 후 재시작
             now = datetime.datetime.now()
             if now.strftime('%H%M%S') == '164810':  # 일단위 저장을 위해 00시 00분 00초가 되면 스트리밍을 멈추고 재시작
@@ -289,12 +295,29 @@ class model(QtCore.QObject):
             # Print results
             for c in det[:, -1].unique():
                 n = (det[:, -1] == c).sum()  # detections per class
-                self.s += f"{n} {self.names[int(c)]}{'s' * (n > 1)}, "  # add to stri   
+                self.s += f"{n} {self.names[int(c)]}{'s' * (n > 1)}, "  # add to string
+            
+            xywhs = xyxy2xywh(det[:, 0:4])
+            confs = det[:, 4]
+            clss = det[:, 5]
+
+            outputs = self.deepsort.update(xywhs.cpu(), confs.cpu(), clss, self.im0)
+
             # Write results
-            for *xyxy, conf, cls in reversed(det):
-                self.c = int(cls)  # integer class
-                label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
-                plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)
+            if len(outputs) > 0:
+                for j, (output, conf) in enumerate(zip(outputs, confs)): 
+                    bboxes = output[0:4]
+                    self.id = output[4]
+                    cls = output[5]
+                    self.c = int(cls)  # integer class
+                    label = f'{self.id} {self.names[self.c]} {conf:.2f}'
+                    color = compute_color_for_id(self.id)
+                    plot_one_box(bboxes, self.im0, label=label, color=color, line_thickness=2) #이미지 위에 출력될 바운딩 박스를 생성합니다.
+
+            #for *xyxy, conf, cls in reversed(det):
+            #    self.c = int(cls)  # integer class
+            #    label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
+            #    plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)
 
 # ImageViewer() : 영상 재생하기 위한 board 클래스
 class ImageViewer(QtWidgets.QWidget):
