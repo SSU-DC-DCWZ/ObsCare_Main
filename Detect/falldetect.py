@@ -255,7 +255,7 @@ class model(QtCore.QObject):
         im = logDB.DBlog(self.source, now, path, situation)
         im.makerecord()
         # 로그 알림 창에 출력할 list에 발생 상황 정보 추가
-        self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : {situation}\n")
+        self.alert.insertText(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : {situation}\n")
         del im
 
     # runInference() :
