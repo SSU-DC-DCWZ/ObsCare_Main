@@ -1,6 +1,6 @@
 import cv2
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QMessageBox
-from PyQt5.QtCore import Qt, QUrl, QCoreApplication, QFileInfo
+from PyQt5.QtCore import Qt, QUrl, QCoreApplication
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5 import uic
 from DB_video.videoDB import *
@@ -32,6 +32,7 @@ class PrevVideo(QWidget):
         self.vp = self.view
 
         self.mp.setVideoOutput(self.vp)
+        path = os.path.abspath(path)
         self.content = QMediaContent(QUrl.fromLocalFile(path))
         self.mp.setMedia(self.content)
         self.mp.play() # default state : video playing
@@ -77,6 +78,7 @@ class PrevVideo(QWidget):
                 return self.change_file()
 
             self.hide()
+            get_path = os.path.abspath(get_path)
             self.PrevVideo = PrevVideo(get_path)
             self.PrevVideo.show()
 
