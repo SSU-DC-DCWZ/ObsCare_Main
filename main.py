@@ -9,7 +9,7 @@ if __name__ == '__main__':
     # WindowClass의 인스턴스 생성
     myWindow = WindowClass()
 
-    # 두 개 대상으로 영상 틀기 위해,,, threading 수행하고자 했음
+    # 각각의 카메라당 thread 각각 배정
     thread1 = QtCore.QThread()
     thread1.start()
     vid1 = model(None, 0, myWindow.alert_browser)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     vid3.VideoSignal.connect(image_viewer3.setImage)
     vid4.VideoSignal.connect(image_viewer4.setImage)
 
-    # 영상 시작 (버튼 돌아가는 걸로 구현되어 있는데,,, 버튼 없애고 어케하는지 모르겠음)
+    # 영상 재생
     start_button = QtWidgets.QPushButton()
     start_button.clicked.connect(vid1.start)
     start_button.click()
@@ -61,10 +61,14 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer3, 0, 1)
     myWindow.video_layout.addWidget(image_viewer4, 1, 0)
 
+    # 전체화면으로 실행
     myWindow.showFullScreen()
+    # app 실행
     app.exec_()
+    # app 종료 후 생성한 model 객체 스트리밍 정지
     vid1.stop()
     vid2.stop()
     vid3.stop()
     vid4.stop()
+    # 시스템 종료
     sys.exit()
