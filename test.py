@@ -10,7 +10,7 @@ if __name__ == '__main__':
     myWindow = WindowClass()
 
     # 두 개 대상으로 영상 틀기 위해,,, threading 수행하고자 했음
-    #
+    
     thread1 = QtCore.QThread()
     thread1.start()
     vid1 = model(None, 0, myWindow.alert_browser)
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # thread3.start()
     # vid3 = model(None, 4, myWindow.alert_browser)
     # vid3.moveToThread(thread3)
-    #
+    
     # thread4 = QtCore.QThread()
     # thread4.start()
     # vid4 = model(None, 6, myWindow.alert_browser)
