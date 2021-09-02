@@ -51,6 +51,8 @@ else:
 # 상황번호 2 -
 # 상황번호 3 -
 # 상황번호 4 -
+
+# model 클래스 : 학습된 모델이 웹캠의 영상을 읽어와 추론하고, 추론된 결과에 따라 바운딩 박스를 그려줍니다.
 class model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
