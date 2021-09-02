@@ -70,5 +70,9 @@ if __name__ == '__main__':
     vid2.stop()
     vid3.stop()
     vid4.stop()
+    thread1.quit()
+    thread2.quit()
+    thread3.quit()
+    thread4.quit()
     # 시스템 종료
     sys.exit()

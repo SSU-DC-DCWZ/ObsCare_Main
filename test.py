@@ -64,3 +64,5 @@ if __name__ == '__main__':
     myWindow.showFullScreen()
     app.exec_()
     vid1.stop()
+    thread1.quit()
+    sys.exit()

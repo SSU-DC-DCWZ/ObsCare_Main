@@ -152,11 +152,15 @@ class model(QtCore.QObject):
         if self.device.type != 'cpu':
             self.model(torch.zeros(1, 3, self.imgsz, self.imgsz).to(self.device).type_as(next(self.model.parameters())))  # run once
         for path, img, im0s, vid_cap in self.dataset:
-            if self.running == False:
+            # stop() 진입한 이후 반복문 탈출
+            if not self.running:
                 break
             pred = self.runInference(path, img)
 
             for i, det in enumerate(pred):  # detections per image
+                # stop() 진입한 이후 반복문 탈출
+                if not self.running:
+                    break
                 self.detection(i, det, path, img, im0s)
                 # 좌우 상하 반전
                 self.im0 = cv2.flip(self.im0, 1)
