@@ -35,7 +35,7 @@ class DBlog:
         # 입력받은 상황에 대한 테이블이 존재하는지 판단하고 존재하지 않을 경우
         # (날짜, 상황번호, 카메라번호, 스크린샷경로)로 log_(상황번호)의 테이블 생성
         self.cur.execute("CREATE TABLE IF NOT EXISTS log_" + str(self.situation) +
-                         " (day INTEGER, situation INTEGER, camera INTEGER, screenshot_address TEXT)")
+                                           " (day INTEGER, situation INTEGER, camera INTEGER, screenshot_address TEXT)")
         self.conn.commit()
 
     # closedb(): DB 종료 함수, 종료 시 저장기한 확인 수행
