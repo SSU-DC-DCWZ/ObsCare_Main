@@ -15,6 +15,8 @@ from DB_log import logDB
 FILE = Path(__file__).absolute()
 sys.path.append(FILE.parents[0].as_posix())  # add yolov5/ to path
 
+# 본 프로젝트는 YOLOv5 및 deepSORT를 바탕으로 object detection model을 custom train 시킨 모델을 사용합니다.
+# YOLOv5 와 deepSORT의 라이브러리 함수들을 import해 fall detection 및 specific obeject detection 및 alert 에 필요한 parameter를 가져올 수 있게 합니다.
 from utils.datasets import LoadStreams
 from utils.general import check_img_size, check_imshow,non_max_suppression, scale_coords, xyxy2xywh,set_logging, increment_path
 from utils.plots import colors, plot_one_box
