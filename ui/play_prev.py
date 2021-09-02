@@ -1,6 +1,6 @@
 import cv2
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QMessageBox
-from PyQt5.QtCore import Qt, QUrl, QCoreApplication
+from PyQt5.QtCore import Qt, QUrl, QCoreApplication, QFileInfo
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5 import uic
 from DB_video.videoDB import *
@@ -78,7 +78,7 @@ class PrevVideo(QWidget):
 
             self.hide()
             new_path = os.path.abspath(get_path)
-            self.PrevVideo = PrevVideo(new_path)
+            self.PrevVideo = PrevVideo(QUrl.fromLocalFile(QFileInfo(get_path).absoluteFilePath()))
             self.PrevVideo.show()
 
 
