@@ -119,7 +119,7 @@ class model(QtCore.QObject):
         # 동영상 저장 경로 설정
         now = datetime.datetime.now()
         self.starttime = datetime.datetime.now()
-        self.savename = "./data/Recording/" + self.source + "/" + now.strftime('%Y%m%d') + ".avi"
+        self.savename = "./data/Recording/" + self.source + "/" + now.strftime('%Y%m%d') + ".mp4"
         # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
         try:
             if not (os.path.isdir("./data/Recording/" + self.source)):
@@ -130,7 +130,7 @@ class model(QtCore.QObject):
                 print("Dir error")
             raise
         # 동영상 저장 코덱 지정 및 저장 형식 지정
-        codec = cv2.VideoWriter_fourcc('D', 'I', 'V', 'X')
+        codec = cv2.VideoWriter_fourcc(*'mp4v')
         self.out = cv2.VideoWriter(self.savename, codec, fps, ((int(self.width)), (int(self.height))))
         # DB에 동영상 관련 정보 저장
         db = videoDB.DBvideo(self.source, self.starttime, self.savename)
