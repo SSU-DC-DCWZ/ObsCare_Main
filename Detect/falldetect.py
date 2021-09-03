@@ -263,6 +263,8 @@ class model(QtCore.QObject):
         del im
 
     # runInference() :
+    # path : 
+    # img : 
     def runInference(self, path, img):
         img = torch.from_numpy(img).to(self.device)
         img = img.half() if self.half else img.float()  # uint8 to fp16/32
