@@ -5,6 +5,24 @@
 ### 
 ## Used Tools
 ``` 
+Python==3.8.10  
+opencv-python==4.2.0.34  
+sqlite3==3.31.1  
+openpyxl==3.0.7  
+PyQt5==5.15.4  
+pyqt5-tools==5.15.4.3.2  
+QtPy==1.10.0  
+matplotlib==3.4.2  
+Pillow==8.3.1  
+PyYAML==5.4.1  
+scipy==1.7.0  
+torch==1.9.0+cu111  
+torchvision==0.10.0+cu111  
+tqdm==4.61.2  
+tensorboard==2.5.0  
+seaborn==0.11.1  
+pandas==1.3.0  
+easydict==1.9  
 ```
 ## 개발 환경
 #### Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-25-generic x86_64)
