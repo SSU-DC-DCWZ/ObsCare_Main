@@ -30,7 +30,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
-###
+#####
 # resource_path : 프로그램 빌드 시 경로 설정을 위한 함수
 # relative_path : 사용중인 상대 경로
 def resource_path(relative_path):
