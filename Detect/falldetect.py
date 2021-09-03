@@ -56,11 +56,11 @@ def compute_color_for_id(label):
 
 # model: cctv 스트리밍과 학습된 모델이 웹캠의 영상을 읽어와 추론하고, 추론된 결과에 따라 바운딩 박스 생성 클래스
 # QtCore.QObject : Qt에서의 signal 사용 위한 상속
-# 상황번호 0 -
-# 상황번호 1 -
-# 상황번호 2 -
-# 상황번호 3 -
-# 상황번호 4 -
+# 상황번호 0 - unfall
+# 상황번호 1 - fall
+# 상황번호 2 - wheelchair
+# 상황번호 3 - guidedog
+# 상황번호 4 - cratch
 class model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
