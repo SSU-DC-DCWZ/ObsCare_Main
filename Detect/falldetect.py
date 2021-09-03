@@ -47,20 +47,21 @@ if os.path.isfile(weights):
 else:
     weights="./Detect/best.pt"
 
-# compute_color_for_id : 각 바운딩박스별 id로 색상을 생성해주는 함수입니다.
+# compute_color_for_id : 각 바운딩박스별 id로 색상을 생성해주는 함수
+# 파라미터 (label)
+# label : 
 def compute_color_for_id(label):
     palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
 
     color = [int((p * (label ** 2 - label + 1)) % 255) for p in palette]
     return tuple(color)
 
-# model: cctv 스트리밍과 상황 감지와 감지한 상황에 대한 처리 클래스
+# model: cctv 스트리밍과 학습된 모델이 웹캠의 영상을 읽어와 추론하고, 추론된 결과에 따라 바운딩 박스 생성 클래스
 # 상황번호 0 -
 # 상황번호 1 -
 # 상황번호 2 -
 # 상황번호 3 -
 # 상황번호 4 -
-# model 클래스 : 학습된 모델이 웹캠의 영상을 읽어와 추론하고, 추론된 결과에 따라 바운딩 박스를 그려줍니다.
 class model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
@@ -332,9 +333,7 @@ class ImageViewer(QtWidgets.QWidget):
     # event :
     def paintEvent(self, event):
         painter = QtGui.QPainter(self)
-        # 규격 안 맞으면 가운데에 위치시키기 위해 좌표 지정
         painter.drawImage(self.rect(), self.image)
-        # painter.drawImage((self.width()-self.image.width())/2, (self.height()-self.image.height())/2, self.image)
         self.image = QtGui.QImage()
 
     # setImage() : 신호 받을 시 수행
