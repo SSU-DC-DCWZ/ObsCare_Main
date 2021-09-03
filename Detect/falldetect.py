@@ -14,6 +14,7 @@ from DB_log import logDB
 
 FILE = Path(__file__).absolute()
 sys.path.append(FILE.parents[0].as_posix())  # add yolov5/ to path
+torch.cuda.empty_cache()
 
 # 본 프로젝트는 YOLOv5 및 deepSORT를 바탕으로 object detection model을 custom train 시킨 모델을 사용합니다.
 # YOLOv5 와 deepSORT의 라이브러리 함수들을 import해 fall detection 및 specific obeject detection 및 alert 에 필요한 parameter를 가져올 수 있게 합니다.
@@ -47,7 +48,6 @@ else:
     weights="./Detect/best.pt"
 
 # compute_color_for_id : 각 바운딩박스별 id로 색상을 생성해주는 함수
-# label : 
 def compute_color_for_id(label):
     palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
 
@@ -72,21 +72,27 @@ class model(QtCore.QObject):
     def __init__(self, classes, camNum, alert_browser=None, parent=None):
         super(model, self).__init__(parent)
         self.alert = alert_browser
-        self.weights = weights
-        self.source = str(camNum)
-        self.imgsz = 640
-        self.conf_thres = 0.45
-        self.iou_thres = 0.45
-        self.max_det=1000  # maximum detections per image
+        self.weights = weights # 모델
+        self.source = str(camNum) # 영상 소스
+        self.imgsz = 640 # 추론될 이미지 사이즈
+        self.conf_thres = 0.45 # 추론 임계값
+        self.iou_thres = 0.45 # iou 임계값
+        self.max_det=1000  # 최대 detection 개수
         self.device=''  # cuda device, i.e. 0 or 0,1,2,3 or cpu
-        self.classes=classes # filter by class: --class 0, or --class 0 2 3
-        self.agnostic_nms=True  # class-agnostic NMS
+        self.classes= [1,2,3,4] # 검출 클래스 filter by class: --class 0, or --class 0 2 3
+        self.agnostic_nms=True  # NMS 활성화 class-agnostic NMS
         self.augment=False  # augmented inference
         self.visualize=False  # visualize features
-        self.half=True
+        self.half=True # 부동소수점을 절반으로 줄여 연산량 감소
         self.running = False
         self.loadModel()
-        self.list =[]
+
+        self.fallTimeList = []
+
+        self.id = None
+        self.fallId = None
+        self.objectId = None
+        self.noti = None
 
     # loadModel() :
     @torch.no_grad()
@@ -193,33 +199,42 @@ class model(QtCore.QObject):
 
     # falldetection() :
     def falldetection(self):
-        now = datetime.datetime.now()
-        self.list.append(now)
-        if len(self.list) >= 2:
-            time = self.list[-1] - self.list[0]
+        if self.fallId is None:
+            self.fallId = self.id
+        elif self.fallId != self.id:
+            #print("1")
+            return
         else:
-            time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
-        if int(time.total_seconds()) >= 6:
-            self.list = []  # 시간 초기화
-        if int(time.total_seconds()) >= 5:
-            print("fall is detected")
-            self.screenshot(self.c)
-            self.list = []  # 시간 초기화
+            #print("2")
+            now = datetime.datetime.now()
+            self.fallTimeList.append(now)
+
+            if len(self.fallTimeList) >= 2 :
+                time = self.fallTimeList[-1] - self.fallTimeList[0]
+            else:
+                time = datetime.timedelta(0, 0, 0, 0 , 0 ,0, 0) 
+
+            if int(time.total_seconds()) >= 6:
+                self.fallTimeList = []
+            #print(time.total_seconds())
+            if int(time.total_seconds()) == 5: ##연속적 falldetect
+                print("fall is detected")
+                self.screenshot(self.c)
+                print(datetime.datetime.now())
+                self.fallTimeList = [] ## 시간 초기화
 
     # objectdection() :
     def objectdection(self):
-        now = datetime.datetime.now()
-        self.list.append(now)
-        if len(self.list) >= 2:
-            time = self.list[-1] - self.list[0]
+        if self.objectId is None:
+            self.objectId = self.id
+        elif self.objectId != self.id:
+            self.noti = None
+            return
         else:
-            time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
-        if int(time.total_seconds()) >= 10:
-            self.list = []  # 시간 초기화
-        if int(time.total_seconds()) >= 2:
-            print(f'{self.c} is detected')
-            self.screenshot(self.c)
-            self.list = []  # 시간 초기화
+            if self.objectId == self.id and self.noti == None:
+                print("detected")
+                self.screenshot(self.c)
+                self.noti = 1
 
     # loadVideo() : 프레임 각각에 대한 처리를 위한 함수
     def loadVideo(self):
@@ -289,8 +304,8 @@ class model(QtCore.QObject):
         if self.webcam:  # batch_size >= 1
             p, self.s, self.im0, frame = path[i], f'{i}: ', im0s[i].copy(), self.dataset.count
         # 좌우 상하 반전
-        self.im0 = cv2.flip(self.im0, 1)
-        self.im0 = cv2.flip(self.im0, 0)
+        #self.im0 = cv2.flip(self.im0, 1)
+        #self.im0 = cv2.flip(self.im0, 0)
         self.p = Path(p)  # to Path
         self.s += '%gx%g ' % img.shape[2:]  # print string
         self.c = 0
