@@ -3,27 +3,13 @@
 ##### 
 ## 주요기능
 ### 
-## Used Tools
+## 설치
 ``` 
-Python==3.8.10  
-opencv-python==4.2.0.34  
-sqlite3==3.31.1  
-openpyxl==3.0.7  
-PyQt5==5.15.4  
-pyqt5-tools==5.15.4.3.2  
-QtPy==1.10.0  
-matplotlib==3.4.2  
-Pillow==8.3.1  
-PyYAML==5.4.1  
-scipy==1.7.0  
-torch==1.9.0+cu111  
-torchvision==0.10.0+cu111  
-tqdm==4.61.2  
-tensorboard==2.5.0  
-seaborn==0.11.1  
-pandas==1.3.0  
-easydict==1.9  
+git clone https://github.com/SSU-DC-DCWZ/ObsCure_Main.git
+pip install -r requirements.txt
 ```
+
+
 ## 시연 시스템 사양
 #### 1. UVC 카메라
 국제에이브이 에이스원 X PRO2
