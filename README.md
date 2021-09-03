@@ -24,17 +24,19 @@ seaborn==0.11.1
 pandas==1.3.0  
 easydict==1.9  
 ```
-## 개발 환경
-#### Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-25-generic x86_64)
-#### PyCharm 2021.1.13 (Professional Edition) @11.0.11
 ## 시연 시스템 사양
 #### 1. UVC 카메라
 국제에이브이 에이스원 X PRO2
 #### 2. GPU 및 cuda 버전
-NVIDIA GeForce RTX 3080, CUDA 11.4
+NVIDIA GeForce RTX 3080 10GB, CUDA 11.4
 #### 3. CPU
 Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz
 #### 4. 메모리
+16GB
+## 개발 환경
+#### Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-25-generic x86_64)
+#### PyCharm 2021.1.13 (Professional Edition) @11.0.11
+#### Visual Studio Code 1.60.0
 ## 기여자
 #### **강병휘**(essentialhrdy) : 모델 학습 및 Object Detection 처리
 #### **이찬서**(Lfollow-CS) : DB,Stream 관리 및 개별 프로젝트 통합
