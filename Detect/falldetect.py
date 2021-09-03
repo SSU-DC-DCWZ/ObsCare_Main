@@ -31,7 +31,6 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
 
 # resource_path : 프로그램 빌드 시 경로 설정을 위한 함수
-# 파리미터(relative_path)
 # relative_path : 사용중인 상대 경로
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -48,7 +47,6 @@ else:
     weights="./Detect/best.pt"
 
 # compute_color_for_id : 각 바운딩박스별 id로 색상을 생성해주는 함수
-# 파라미터 (label)
 # label : 
 def compute_color_for_id(label):
     palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
@@ -67,7 +65,6 @@ class model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
     # __int__ : 생성자
-    # 파라미터(classes, camNum, alert_browser, parent)
     # classes:발생한 카메라
     # camNum: 카메라 번호, PC에 연결된 카메라의 기기 번호
     # alert_browser: 로그 알람을 위해 받은 ui 파일의 list
@@ -244,7 +241,6 @@ class model(QtCore.QObject):
         loop.exec_()
 
     # screenshot() : 상황 발생 시 스크린샷을 위한 처리
-    # 파라미터(situation)
     # situation : 발생한 상황 번호
     def screenshot(self, situation):
         # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
@@ -282,6 +278,11 @@ class model(QtCore.QObject):
         return pred
 
     # detection() :
+    # i : 
+    # det : 
+    # path : 
+    # img : 
+    # im0s : 
     def detection(self, i, det, path, img, im0s):
         if self.webcam:  # batch_size >= 1
             p, self.s, self.im0, frame = path[i], f'{i}: ', im0s[i].copy(), self.dataset.count

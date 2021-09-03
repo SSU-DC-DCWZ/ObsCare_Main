@@ -6,7 +6,6 @@ import errno
 # DBvideo : 저장된 video 대한 DB 처리 클래스
 class DBvideo:
     # __int__ : 생성자
-    # 파라미터(camnum, time, path)
     # camnum:발생한 카메라
     # time=발생 시간
     # path:스크린샷 저장 경로
@@ -42,7 +41,6 @@ class DBvideo:
         self.conn.commit()
 
     # findrecord() : 레코드 검색 함수
-    # 파라미터: (cam, day)
     # cam:발생한 카메라
     # day=발생 시간 ex)20210101
     def findrecord(self, cam, day):

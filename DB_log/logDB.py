@@ -7,7 +7,6 @@ import errno
 # DBlog : log 발생상황에 대한 DB 처리 클래스
 class DBlog:
     # __int__ : 생성자
-    # 파라미터(camnum, time, path, situation)
     # camnum:발생한 카메라
     # situation:발생상황 종류
     # time=발생 시간
@@ -53,7 +52,6 @@ class DBlog:
         self.conn.commit()
 
     # findrecord() : 레코드 검색 함수
-    # 파라미터: (cam, situation, day)
     # cam:발생한 카메라
     # situation:발생상황 종류
     # day=발생 시간 ex)20210101
