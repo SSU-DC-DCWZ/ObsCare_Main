@@ -57,6 +57,7 @@ def compute_color_for_id(label):
     return tuple(color)
 
 # model: cctv 스트리밍과 학습된 모델이 웹캠의 영상을 읽어와 추론하고, 추론된 결과에 따라 바운딩 박스 생성 클래스
+# QtCore.QObject : Qt에서의 signal 사용 위한 상속
 # 상황번호 0 -
 # 상황번호 1 -
 # 상황번호 2 -
@@ -70,12 +71,12 @@ class model(QtCore.QObject):
     # classes:발생한 카메라
     # camNum: 카메라 번호, PC에 연결된 카메라의 기기 번호
     # alert_browser: 로그 알람을 위해 받은 ui 파일의 list
-    # parent:
+    # parent : 상속한 class
     def __init__(self, classes, camNum, alert_browser=None, parent=None):
         super(model, self).__init__(parent)
         self.alert = alert_browser
         self.weights = weights
-        self.source = str(camNum) # 
+        self.source = str(camNum)
         self.imgsz = 640
         self.conf_thres = 0.45
         self.iou_thres = 0.45
@@ -320,31 +321,38 @@ class model(QtCore.QObject):
             #    label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
             #    plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)
 
-# ImageViewer() : 영상 재생하기 위한 board 클래스
+# ImageViewer : 영상 재생하기 위한 board
+# QtWidgets.QWidget : qt에서의 board 생성 위해 상속
 class ImageViewer(QtWidgets.QWidget):
+    # __init__ : 생성자
+    # parent : 상속한 class
     def __init__(self, parent=None):
         super(ImageViewer, self).__init__(parent)
         self.image = QtGui.QImage()
+        # paint event 받았을 때 해당 widget에서 모든 pixel을 직접 그림으로써 적은 최적화 제공
         self.setAttribute(QtCore.Qt.WA_OpaquePaintEvent)
         self.setFixedSize(853, 480)
 
-    # paintEvent() :
-    # 파라미터(event)
-    # event :
+    # paintEvent : board에 image 삽입 위한 함수
+    # event : WA_OpaquePaintEvent 위한 event
     def paintEvent(self, event):
+        # QtGui.QPainter 이용하여 board에 image의 pixel별로 기록
         painter = QtGui.QPainter(self)
+        # painter에 self.image를 input으로 주어줌. self.rect() 이용하여 비율에 따라 그려지도록 함
         painter.drawImage(self.rect(), self.image)
         self.image = QtGui.QImage()
 
-    # setImage() : 신호 받을 시 수행
-    # 파라미터(image)
-    # image :
+    # videosignal 받을 시 아래 함수 수행
+    # setImage : 카메라로 촬영하는 image에 대한 초기화
+    # image : camera로 받아오는 image
     @pyqtSlot(QtGui.QImage)
     def setImage(self, image):
+        # image가 없을 경우. (오류 처리)
         if image.isNull():
             print("Viewer Dropped frame!")
 
         self.image = image
+        # image 크기와 판 크기가 상이할 경우 판 크기로 맞춤
         if image.size() != self.size():
             self.setFixedSize(QtCore.QSize(853, 480))
         self.update()
