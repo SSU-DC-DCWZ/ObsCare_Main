@@ -328,7 +328,7 @@ class model(QtCore.QObject):
                     plot_one_box(bboxes, self.im0, label=label, color=color, line_thickness=2) #이미지 위에 출력될 바운딩 박스를 생성합니다.
 
 
-# ImageViewer : 영상 재생하기 위한 board
+# ImageViewer : 영상 재생하기 위한 board class
 # QtWidgets.QWidget : qt에서의 board 생성 위해 상속
 class ImageViewer(QtWidgets.QWidget):
     # __init__ : 생성자
