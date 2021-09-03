@@ -30,7 +30,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
-#####
+
 # resource_path : 프로그램 빌드 시 경로 설정을 위한 함수
 # relative_path : 사용중인 상대 경로
 def resource_path(relative_path):
@@ -84,36 +84,33 @@ class model(QtCore.QObject):
         self.augment=False  # augmented inference
         self.visualize=False  # visualize features
         self.half=True # 부동소수점을 절반으로 줄여 연산량 감소
-        self.running = False
-        self.loadModel()
+        self.running = False # 영상 재생 신호 설정
+        self.loadModel() # 생성자에서 loadModel() 수행
 
-        self.fallTimeList = []
+        self.fallTimeList = [] # falldetion timeList
 
-        self.id = None
-        self.fallId = None
-        self.objectId = None
-        self.noti = None
+        self.id = None # 식별 id
+        self.fallId = None #falled 식별 id
+        self.objectId = None #object 식별 id
+        self.noti = None # notity parameter
 
-    # loadModel() :
+    # loadModel() : 모델과 cam 매칭 및 모델 생성시 이미지 추론 설정
     @torch.no_grad()
     def loadModel(self):
-        self.webcam = self.source.isnumeric()
-        # Initialize
-        set_logging()
+        self.webcam = self.source.isnumeric() 
+        # 초기화
         self.device = select_device(self.device)
         self.half &= self.device.type != 'cpu'  # half precision only supported on CUDA
-        # Load model
+        # 모델 로드
         self.model = attempt_load(self.weights, map_location=self.device)  # load FP32 model
         self.stride = int(self.model.stride.max())  # model stride
         self.imgsz = check_img_size(self.imgsz, s=self.stride)  # check image size
         self.names = self.model.module.names if hasattr(self.model, 'module') else self.model.names  # get class names
-        self.model.half()
-        self.classify = False
+        self.model.half() # 모델의 부동소수점을 절반으로 줄여 연산량 감소
 
-
-        cfg = get_config()
+        #deepSORT 초기화 
+        cfg = get_config() 
         cfg.merge_from_file("./deep_sort/deep_sort.yaml")
-        #attempt_download(deep_sort_weights, repo='mikel-brostrom/Yolov5_DeepSort_Pytorch')
         self.deepsort = DeepSort(cfg.DEEPSORT.REID_CKPT,
                         max_dist=cfg.DEEPSORT.MAX_DIST, min_confidence=cfg.DEEPSORT.MIN_CONFIDENCE,
                         nms_max_overlap=cfg.DEEPSORT.NMS_MAX_OVERLAP, max_iou_distance=cfg.DEEPSORT.MAX_IOU_DISTANCE,
@@ -162,7 +159,7 @@ class model(QtCore.QObject):
 
     # run() : 스트리밍을 진행하는 함수
     def run(self):
-        # Run inference
+        # 추론 시행
         if self.device.type != 'cpu':
             self.model(torch.zeros(1, 3, self.imgsz, self.imgsz).to(self.device).type_as(next(self.model.parameters())))  # run once
         for path, img, im0s, vid_cap in self.dataset:
@@ -171,7 +168,7 @@ class model(QtCore.QObject):
                 break
             pred = self.runInference(path, img)
 
-            for i, det in enumerate(pred):  # detections per image
+            for i, det in enumerate(pred):  # 이미지 추론
                 # stop() 진입한 이후 반복문 탈출
                 if not self.running:
                     break
@@ -197,15 +194,13 @@ class model(QtCore.QObject):
                 self.stop()
                 self.start()
 
-    # falldetection() :
+    # falldetection() : 사람의 쓰러짐 감지시 5초간 쓰러짐상태로 계속 유지된다면 로그 발생
     def falldetection(self):
         if self.fallId is None:
             self.fallId = self.id
         elif self.fallId != self.id:
-            #print("1")
             return
         else:
-            #print("2")
             now = datetime.datetime.now()
             self.fallTimeList.append(now)
 
@@ -223,7 +218,7 @@ class model(QtCore.QObject):
                 print(datetime.datetime.now())
                 self.fallTimeList = [] ## 시간 초기화
 
-    # objectdection() :
+    # objectdection() : 특정 사물 감지시 로그 발생
     def objectdection(self):
         if self.objectId is None:
             self.objectId = self.id
@@ -277,67 +272,61 @@ class model(QtCore.QObject):
         self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : {situation}\n")
         del im
 
-    # runInference() :
-    # path : 
-    # img : 
+    # runInference() : 받아온 영상을 바탕으로 프레임 단위로 영상 추론 실행
+    # path : 이미지 경로값
+    # img : 영상의 이미지프레임
     def runInference(self, path, img):
         img = torch.from_numpy(img).to(self.device)
         img = img.half() if self.half else img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
-        # Inference
+        # 추론
         pred = self.model(img,
                      augment=self.augment,
                      visualize=increment_path(self.save_dir / Path(path).stem, mkdir=True) if self.visualize else False)[0]
-        # Apply NMS
+        # NMS 실행
         pred = non_max_suppression(pred, self.conf_thres, self.iou_thres, self.classes, self.agnostic_nms, max_det=self.max_det)
         return pred
 
-    # detection() :
-    # i : 
-    # det : 
-    # path : 
-    # img : 
-    # im0s : 
+    # detection() : 추론된 이미지에 id, class , 좌표값에 맞게 바운딩 박스 생성
+    # i,det : 추론 결과
+    # path : 이미지 경로
+    # img : 출력될 이미지
+    # im0s : 추론된 이미지
     def detection(self, i, det, path, img, im0s):
-        if self.webcam:  # batch_size >= 1
-            p, self.s, self.im0, frame = path[i], f'{i}: ', im0s[i].copy(), self.dataset.count
-        # 좌우 상하 반전
-        #self.im0 = cv2.flip(self.im0, 1)
-        #self.im0 = cv2.flip(self.im0, 0)
+
+        p, self.s, self.im0, frame = path[i], f'{i}: ', im0s[i].copy(), self.dataset.count
         self.p = Path(p)  # to Path
         self.s += '%gx%g ' % img.shape[2:]  # print string
         self.c = 0
         if len(det):
-            # Rescale boxes from img_size to im0 size
+            # 이미지 리스케일링
             det[:, :4] = scale_coords(img.shape[2:], det[:, :4], self.im0.shape).round()
-            # Print results
+            # 결과 도출
             for c in det[:, -1].unique():
                 n = (det[:, -1] == c).sum()  # detections per class
                 self.s += f"{n} {self.names[int(c)]}{'s' * (n > 1)}, "  # add to string
             
+            # 바운딩 박스 생성용 변수 생성
             xywhs = xyxy2xywh(det[:, 0:4])
             confs = det[:, 4]
             clss = det[:, 5]
 
+            #deepSORT에 추론 반영
             outputs = self.deepsort.update(xywhs.cpu(), confs.cpu(), clss, self.im0)
 
-            # Write results
+            # 결과 출력
             if len(outputs) > 0:
                 for j, (output, conf) in enumerate(zip(outputs, confs)): 
                     bboxes = output[0:4]
                     self.id = output[4]
                     cls = output[5]
-                    self.c = int(cls)  # integer class
+                    self.c = int(cls)  # 정수화
                     label = f'{self.id} {self.names[self.c]} {conf:.2f}'
                     color = compute_color_for_id(self.id)
                     plot_one_box(bboxes, self.im0, label=label, color=color, line_thickness=2) #이미지 위에 출력될 바운딩 박스를 생성합니다.
 
-            #for *xyxy, conf, cls in reversed(det):
-            #    self.c = int(cls)  # integer class
-            #    label = None if self.hide_labels else (self.names[self.c] if self.hide_conf else f'{self.names[self.c]} {conf:.2f}')
-            #    plot_one_box(xyxy, self.im0, label=label, color=colors(self.c, True), line_thickness=self.line_thickness)
 
 # ImageViewer : 영상 재생하기 위한 board
 # QtWidgets.QWidget : qt에서의 board 생성 위해 상속
