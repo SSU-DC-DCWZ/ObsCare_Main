@@ -178,7 +178,7 @@ class model(QtCore.QObject):
                 showtime = datetime.datetime.now()
                 cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
                 cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (1200,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
-                cv2.putText(self.im0, 'CAM' + str(0), (1200,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255))
+                cv2.putText(self.im0, 'CAM' + str(self.source), (1200,25), cv2.FONT_HERSHEY_DUPLEX,0.7,(255,255,255))
                 # 1번상황(쓰러진 사람) 발생 시
                 if self.c == 1:
                     self.falldetection()
