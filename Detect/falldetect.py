@@ -172,9 +172,7 @@ class model(QtCore.QObject):
                 if not self.running:
                     break
                 self.detection(i, det, path, img, im0s)
-                # 좌우 상하 반전
-                self.im0 = cv2.flip(self.im0, 1)
-                self.im0 = cv2.flip(self.im0, 0)
+                
                 # 스트리밍 화면에 시간, 카메라번호 출력
                 showtime = datetime.datetime.now()
                 cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10,710), cv2.FONT_HERSHEY_DUPLEX,0.5,(255,255,255))
@@ -286,7 +284,9 @@ class model(QtCore.QObject):
     def detection(self, i, det, path, img, im0s):
         if self.webcam:  # batch_size >= 1
             p, self.s, self.im0, frame = path[i], f'{i}: ', im0s[i].copy(), self.dataset.count
-
+        # 좌우 상하 반전
+        self.im0 = cv2.flip(self.im0, 1)
+        self.im0 = cv2.flip(self.im0, 0)
         self.p = Path(p)  # to Path
         self.s += '%gx%g ' % img.shape[2:]  # print string
         self.c = 0
