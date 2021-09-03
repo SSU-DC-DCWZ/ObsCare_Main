@@ -6,10 +6,12 @@ from Detect.falldetect import model, ImageViewer
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    # WindowClass의 인스턴스 생성
+    # ui.play_ui의 WindowClass 이용하여 창 객체 생성
     myWindow = WindowClass()
 
-    # 각각의 카메라당 thread 각각 배정
+    # thread 생성
+    # 카메라 번호를 이용하여 객체 생성
+    # thread와 카메라 객체 연결
     thread1 = QtCore.QThread()
     thread1.start()
     vid1 = model(None, 0, myWindow.alert_browser)
@@ -30,12 +32,13 @@ if __name__ == '__main__':
     vid4 = model(None, 6, myWindow.alert_browser)
     vid4.moveToThread(thread4)
 
-    # 영상 재생에 대한 판 객체 생성
+    # 영상 재생에 대한 객체 생성
     image_viewer1 = ImageViewer()
     image_viewer2 = ImageViewer()
     image_viewer3 = ImageViewer()
     image_viewer4 = ImageViewer()
 
+    # 영상 재생을 위한 배경과 카메라 신호 연결
     vid1.VideoSignal.connect(image_viewer1.setImage)
     vid2.VideoSignal.connect(image_viewer2.setImage)
     vid3.VideoSignal.connect(image_viewer3.setImage)
@@ -55,7 +58,7 @@ if __name__ == '__main__':
     start_button3.clicked.connect(vid4.start)
     start_button3.click()
 
-    # 영상 layout인 video_layout에 영상 추가
+    # video_layout에 영상 행, 열로 추가
     myWindow.video_layout.addWidget(image_viewer1, 0, 0)
     myWindow.video_layout.addWidget(image_viewer2, 1, 1)
     myWindow.video_layout.addWidget(image_viewer3, 0, 1)
