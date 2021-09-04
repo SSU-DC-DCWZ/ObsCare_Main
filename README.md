@@ -5,7 +5,7 @@
 ### 
 ## 설치
 ``` 
-git clone https://github.com/SSU-DC-DCWZ/ObsCure_Main.git
+git clone https://github.com/SSU-DC-DCWZ/ObsCare_Main.git
 pip install -r requirements.txt
 ```
 
