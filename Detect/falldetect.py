@@ -271,6 +271,8 @@ class model(QtCore.QObject):
         # 로그 알림 창에 출력할 list에 발생 상황 정보 추가
         self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : {situation}\n")
         del im
+        self.alert.moveCursor(QtGui.QTextCursor.End)
+        self.alert.ensureCursorVisible()
 
     # runInference() : 받아온 영상을 바탕으로 프레임 단위로 영상 추론 실행
     # path : 이미지 경로값
