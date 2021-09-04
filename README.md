@@ -1,4 +1,4 @@
-# ObsCure_Main
+# ObsCare_Main
 ## 소개
 ##### 
 ## 주요기능
