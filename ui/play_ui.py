@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5 import QtCore
+from PyQt5 import QtGui
 from ui.play_prev import *
 from DB_video.videoDB import *
 import sys
@@ -33,6 +34,8 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
+        self.setWindowIcon(QtGui.QIcon('../img/web.png')) # 창 아이콘 생성
+        
         self.exit_button.clicked.connect(lambda : self.close()) # 나가기 버튼
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
 
