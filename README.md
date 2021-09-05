@@ -22,6 +22,7 @@ MODEL DOWNLOAD : https://drive.google.com/file/d/1ENyNxEmXgTz7lfkFEzeZqNvu-jW-5j
 모델 다운로드 후 Detection 폴더로 이동해야 정상적으로 시스템이 동작합니다.
 ``` python 
 git clone https://github.com/SSU-DC-DCWZ/ObsCare_Main.git
+pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
 ```
 ``` python
