@@ -60,9 +60,9 @@ if __name__ == '__main__':
 
     # video_layout에 영상 행, 열로 추가
     myWindow.video_layout.addWidget(image_viewer1, 0, 0)
-    myWindow.video_layout.addWidget(image_viewer2, 1, 1)
-    myWindow.video_layout.addWidget(image_viewer3, 0, 1)
-    myWindow.video_layout.addWidget(image_viewer4, 1, 0)
+    myWindow.video_layout.addWidget(image_viewer2, 0, 1)
+    myWindow.video_layout.addWidget(image_viewer3, 1, 0)
+    myWindow.video_layout.addWidget(image_viewer4, 1, 1)
 
     # 전체화면으로 실행
     myWindow.showFullScreen()
