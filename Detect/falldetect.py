@@ -199,6 +199,7 @@ class model(QtCore.QObject):
         if self.fallId is None:
             self.fallId = self.id
         elif self.fallId != self.id:
+            self.fallId = None
             return
         else:
             now = datetime.datetime.now()
