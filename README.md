@@ -23,6 +23,7 @@ pip install -r requirements.txt
 ``` python
 python3 main.py
 ```
+[model](https://drive.google.com/file/d/1ENyNxEmXgTz7lfkFEzeZqNvu-jW-5jAt/view?usp=sharing)
 
 
 ## 시연 시스템 사양
