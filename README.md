@@ -1,8 +1,16 @@
 # ObsCare_Main
 ## 소개
 ##### 
-## 주요기능
-### 
+## 시연 화면
+### 상황 감지 시 log 발생
+![image](https://user-images.githubusercontent.com/49185035/132118122-bc0d449c-721b-45e6-a11f-87774ec60777.png)
+### 이전 영상 확인 위한 정보 입력
+![image](https://user-images.githubusercontent.com/49185035/132118151-9dede290-e0f5-4424-85ee-82c1560c30f1.png)
+### 이전 영상 확인
+![image](https://user-images.githubusercontent.com/49185035/132118157-ec7585ef-f9e0-4b69-bbdf-65bbdb7dc850.png)
+
+## 시스템 구성도
+![image](https://user-images.githubusercontent.com/49185035/132118172-4c61f4bd-609e-4407-8e78-bbd160e2339e.png)
 ## 설치
 ``` 
 git clone https://github.com/SSU-DC-DCWZ/ObsCare_Main.git
