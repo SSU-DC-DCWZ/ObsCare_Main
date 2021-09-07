@@ -1,5 +1,4 @@
 opencv-python==4.2.0.34  
-sqlite3==3.31.1  
 openpyxl==3.0.7  
 PyQt5==5.15.4  
 pyqt5-tools==5.15.4.3.2  
