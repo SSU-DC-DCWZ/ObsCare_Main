@@ -26,8 +26,8 @@ git clone https://github.com/SSU-DC-DCWZ/ObsCare_Main.git
 
 ### 가상환경 생성 및 활성화
 ```
-python -m venv ObsCare
-source ObsCare/bin/activate
+python -m venv venv
+source venv/bin/activate
 ```
 
 ### 의존성 패키지 설치
