@@ -38,6 +38,8 @@ NVIDIA GeForce RTX 3080 10GB, CUDA 11.4
 Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz
 #### 4. 메모리
 16GB
+#### 5. Python version
+Python 3.8.10  
 
 ## 개발 환경
 #### Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-25-generic x86_64)
