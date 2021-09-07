@@ -37,7 +37,7 @@ if __name__ == '__main__':
     if length >= 1:
         thread1 = QtCore.QThread()
         thread1.start()
-        vid1 = model(None, 0, myWindow.alert_browser)
+        vid1 = model(None, camNums[0], myWindow.alert_browser)
         vid1.moveToThread(thread1)
         vid1.VideoSignal.connect(image_viewer1.setImage)
         start_button = QtWidgets.QPushButton()
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     if length >= 2:
         thread2= QtCore.QThread()
         thread2.start()
-        vid2 = model(None, 0, myWindow.alert_browser)
+        vid2 = model(None, camNums[1], myWindow.alert_browser)
         vid2.moveToThread(thread2)
         vid2.VideoSignal.connect(image_viewer2.setImage)
         start_button2 = QtWidgets.QPushButton()
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     if length >= 3:
         thread3 = QtCore.QThread()
         thread3.start()
-        vid3 = model(None, 0, myWindow.alert_browser)
+        vid3 = model(None, camNums[2], myWindow.alert_browser)
         vid3.moveToThread(thread3)
         vid3.VideoSignal.connect(image_viewer3.setImage)
         start_button3 = QtWidgets.QPushButton()
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     if length >= 4:
         thread4 = QtCore.QThread()
         thread4.start()
-        vid4 = model(None, 0, myWindow.alert_browser)
+        vid4 = model(None, camNums[3], myWindow.alert_browser)
         vid4.moveToThread(thread4)
         vid4.VideoSignal.connect(image_viewer4.setImage)
         start_button4 = QtWidgets.QPushButton()
