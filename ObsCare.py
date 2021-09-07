@@ -44,7 +44,7 @@ if __name__ == '__main__':
         start_button.clicked.connect(vid1.start)
         start_button.click()
         
-    if length >= 2
+    if length >= 2:
         thread2= QtCore.QThread()
         thread2start()
         vid2= model(None, 0, myWindow.alert_browser)
