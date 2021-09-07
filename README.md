@@ -29,6 +29,7 @@ git clone https://github.com/SSU-DC-DCWZ/ObsCare_Main.git
 python -m venv ObsCare
 source ObsCare/bin/activate
 ```
+
 ### 의존성 패키지 설치
 ```
 cd ObsCare_Main
@@ -36,13 +37,9 @@ pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pyt
 pip install -r requirements.txt
 ```
 
-### 모델 다운로드
-```
-wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ENyNxEmXgTz7lfkFEzeZqNvu-jW-5jAt' -O Detect/best.pt
-```
 ### 실행
 ``` 
-python3 main.py
+python3 ObsCare.py
 ```
 
 ## 시연 시스템 사양
