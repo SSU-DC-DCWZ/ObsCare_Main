@@ -91,14 +91,14 @@ if __name__ == '__main__':
         vid1.stop()
         thread1.quit()
     if length >= 2:
-        vid1.stop()
-        thread1.quit()
+        vid2.stop()
+        thread2.quit()
     if length >= 3:
-        vid1.stop()
-        thread1.quit()
+        vid3.stop()
+        thread3.quit()
     if length >= 4:
-        vid1.stop()
-        thread1.quit()
+        vid4.stop()
+        thread4.quit()
         
     # 시스템 종료
     sys.exit()
