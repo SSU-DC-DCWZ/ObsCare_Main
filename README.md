@@ -18,14 +18,30 @@
 ![image](https://user-images.githubusercontent.com/49185035/132118157-ec7585ef-f9e0-4b69-bbdf-65bbdb7dc850.png)
 
 ## 설치 및 실행
-MODEL DOWNLOAD : https://drive.google.com/file/d/1ENyNxEmXgTz7lfkFEzeZqNvu-jW-5jAt/view?usp=sharing  
-모델 다운로드 후 Detection 폴더로 이동해야 정상적으로 시스템이 동작합니다.
-``` python 
+#### Ubuntu 20.04 터미널에서 설치한다고 가정하였습니다.
+### clone repository
+``` 
 git clone https://github.com/SSU-DC-DCWZ/ObsCare_Main.git
+```
+
+### 가상환경 생성 및 활성화
+```
+python -m venv ObsCare
+source ObsCare/bin/activate
+```
+### 의존성 패키지 설치
+```
+cd ObsCare_Main
 pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
 ```
-``` python
+
+### 모델 다운로드
+```
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ENyNxEmXgTz7lfkFEzeZqNvu-jW-5jAt' -O Detect/best.pt
+```
+### 실행
+``` 
 python3 main.py
 ```
 
