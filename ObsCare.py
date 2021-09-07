@@ -46,10 +46,10 @@ if __name__ == '__main__':
         
     if length >= 2:
         thread2= QtCore.QThread()
-        thread2start()
-        vid2= model(None, 0, myWindow.alert_browser)
-        vid2moveToThread(thread2)
-        vid2VideoSignal.connect(image_viewer2.setImage)
+        thread2.start()
+        vid2 = model(None, 0, myWindow.alert_browser)
+        vid2.moveToThread(thread2)
+        vid2.VideoSignal.connect(image_viewer2.setImage)
         start_button2 = QtWidgets.QPushButton()
         start_button2.clicked.connect(vid2.start)
         start_button2.click()
