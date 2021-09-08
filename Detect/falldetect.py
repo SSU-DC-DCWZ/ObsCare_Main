@@ -60,7 +60,7 @@ def compute_color_for_id(label):
 # 상황번호 1 - fall
 # 상황번호 2 - wheelchair
 # 상황번호 3 - guidedog
-# 상황번호 4 - cratch
+# 상황번호 4 - crutches
 class model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
