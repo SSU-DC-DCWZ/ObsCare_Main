@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import *
+from PyQt5 import QtWidgets
 from PyQt5 import uic
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -24,7 +24,7 @@ else:
 
 # WindowClass : main 화면을 띄우는데 사용되는 class
 # form_class : 해당 class에 적용되는 ui
-class WindowClass(QMainWindow, form_class):
+class WindowClass(QtWidgets.QMainWindow, form_class):
     # UI파일 연결
     # 단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야 한다.
     # form_class = uic.loadUiType("main.ui")[0]
@@ -42,14 +42,14 @@ class WindowClass(QMainWindow, form_class):
      # get_find_date : 입력받은 카메라 번호와 날짜로 영상 재생 위함
     def get_find_date(self):
         # 찾고자하는 영상의 정보 입력
-        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (0-20210101) : ')
+        info, ok = QtWidgets.QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (0-20210101) : ')
 
         if ok:
             try : 
                 # 입력한 정보에서 cam 번호와 date 추출
                 self.cam, self.date = info.split('-')
             except ValueError: # 양식에 맞춰 입력하지 않았을 경우
-                QMessageBox.about(self, "Error!", "올바르지 않은 입력입니다.")
+                QtWidgets.QMessageBox.about(self, "Error!", "올바르지 않은 입력입니다.")
                 return self.get_find_date()
             
             # 입력한 정보를 바탕으로 DB에서 해당 영상의 주소 받아오기 위함
@@ -57,7 +57,7 @@ class WindowClass(QMainWindow, form_class):
             get_path = finddb.findrecord(self.cam, self.date)
 
             if get_path == '':  # 해당 입력에 대한 영상이 존재하지 않을 경우
-                QMessageBox.about(self, "Error!", "해당 입력에 대한 파일이 존재하지 않습니다.")
+                QtWidgets.QMessageBox.about(self, "Error!", "해당 입력에 대한 파일이 존재하지 않습니다.")
                 return self.get_find_date()
 
             self.PrevVideo = PrevVideo(get_path) # 이전 영상 재생 객체 생성
