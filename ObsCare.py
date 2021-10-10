@@ -2,7 +2,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from ui.play_ui import *
-from Detect.falldetect import model, ImageViewer
+from Detect.DetectVideo import Model, ImageViewer
 
 import cv2
 
@@ -37,42 +37,42 @@ if __name__ == '__main__':
     if length >= 1:
         thread1 = QtCore.QThread()
         thread1.start()
-        vid1 = model(None, camNums[0], myWindow.alert_browser)
+        vid1 = Model(None, camNums[0], myWindow.alert_browser)
         vid1.moveToThread(thread1)
         vid1.VideoSignal.connect(image_viewer1.setImage)
         start_button = QtWidgets.QPushButton()
-        start_button.clicked.connect(vid1.start)
+        start_button.clicked.connect(vid1.startDetecting)
         start_button.click()
         
-    if length >= 2:
-        thread2= QtCore.QThread()
-        thread2.start()
-        vid2 = model(None, camNums[1], myWindow.alert_browser)
-        vid2.moveToThread(thread2)
-        vid2.VideoSignal.connect(image_viewer2.setImage)
-        start_button2 = QtWidgets.QPushButton()
-        start_button2.clicked.connect(vid2.start)
-        start_button2.click()
+    # if length >= 2:
+    #     thread2= QtCore.QThread()
+    #     thread2.start()
+    #     vid2 = Model(None, camNums[1], myWindow.alert_browser)
+    #     vid2.moveToThread(thread2)
+    #     vid2.VideoSignal.connect(image_viewer2.setImage)
+    #     start_button2 = QtWidgets.QPushButton()
+    #     start_button2.clicked.connect(vid2.startDetecting)
+    #     start_button2.click()
         
-    if length >= 3:
-        thread3 = QtCore.QThread()
-        thread3.start()
-        vid3 = model(None, camNums[2], myWindow.alert_browser)
-        vid3.moveToThread(thread3)
-        vid3.VideoSignal.connect(image_viewer3.setImage)
-        start_button3 = QtWidgets.QPushButton()
-        start_button3.clicked.connect(vid3.start)
-        start_button3.click()
+    # if length >= 3:
+    #     thread3 = QtCore.QThread()
+    #     thread3.start()
+    #     vid3 = Model(None, camNums[2], myWindow.alert_browser)
+    #     vid3.moveToThread(thread3)
+    #     vid3.VideoSignal.connect(image_viewer3.setImage)
+    #     start_button3 = QtWidgets.QPushButton()
+    #     start_button3.clicked.connect(vid3.startDetecting)
+    #     start_button3.click()
         
-    if length >= 4:
-        thread4 = QtCore.QThread()
-        thread4.start()
-        vid4 = model(None, camNums[3], myWindow.alert_browser)
-        vid4.moveToThread(thread4)
-        vid4.VideoSignal.connect(image_viewer4.setImage)
-        start_button4 = QtWidgets.QPushButton()
-        start_button4.clicked.connect(vid4.start)
-        start_button4.click()
+    # if length >= 4:
+    #     thread4 = QtCore.QThread()
+    #     thread4.start()
+    #     vid4 = Model(None, camNums[3], myWindow.alert_browser)
+    #     vid4.moveToThread(thread4)
+    #     vid4.VideoSignal.connect(image_viewer4.setImage)
+    #     start_button4 = QtWidgets.QPushButton()
+    #     start_button4.clicked.connect(vid4.startDetecting)
+    #     start_button4.click()
 
 
 
@@ -86,19 +86,19 @@ if __name__ == '__main__':
     myWindow.showFullScreen()
     # app 실행
     app.exec_()
-    # app 종료 후 생성한 model 객체 스트리밍 정지
+    # app 종료 후 생성한 Model 객체 스트리밍 정지
     if length >= 1:
-        vid1.stop()
+        vid1.stopDetecting()
         thread1.quit()
-    if length >= 2:
-        vid2.stop()
-        thread2.quit()
-    if length >= 3:
-        vid3.stop()
-        thread3.quit()
-    if length >= 4:
-        vid4.stop()
-        thread4.quit()
+    # if length >= 2:
+    #     vid2.stopDetecting()
+    #     thread2.quit()
+    # if length >= 3:
+    #     vid3.stopDetecting()
+    #     thread3.quit()
+    # if length >= 4:
+    #     vid4.stopDetecting()
+    #     thread4.quit()
         
     # 시스템 종료
     sys.exit()
