@@ -13,10 +13,8 @@ if __name__ == '__main__':
 
     # 영상 재생에 대한 객체 생성
     image_viewer = []
-    image_viewer.append(ImageViewer())
-    image_viewer.append(ImageViewer())
-    image_viewer.append(ImageViewer())
-    image_viewer.append(ImageViewer())
+    for i in range(4):
+        image_viewer.append(ImageViewer())
 
     # 현재 접근 가능한 카메라 확인 및 displaylist로 연결 가능한 카메라 수만큼 Display 객체 생성
     displaylist = []
