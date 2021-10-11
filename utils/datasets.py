@@ -279,8 +279,9 @@ class LoadStreams:  # multiple IP or RTSP cameras
         self.stride = stride
 
         if os.path.isfile(sources):
-            with open(sources, 'r') as f:
-                sources = [x.strip() for x in f.read().strip().splitlines() if len(x.strip())]
+            # with open(sources, 'r') as f:
+            #     sources = [x.strip() for x in f.read().strip().splitlines() if len(x.strip())]
+            sources = [sources]
         else:
             sources = [sources]
 
@@ -290,16 +291,17 @@ class LoadStreams:  # multiple IP or RTSP cameras
         for i, s in enumerate(sources):  # index, source
             # Start thread to read frames from video stream
             print(f'{i + 1}/{n}: {s}... ', end='')
-            if 'youtube.com/' in s or 'youtu.be/' in s:  # if source is YouTube video
-                check_requirements(('pafy', 'youtube_dl'))
-                import pafy
-                s = pafy.new(s).getbest(preftype="mp4").url  # YouTube URL
+            # if 'youtube.com/' in s or 'youtu.be/' in s:  # if source is YouTube video
+            #     check_requirements(('pafy', 'youtube_dl'))
+            #     import pafy
+            #     s = pafy.new(s).getbest(preftype="mp4").url  # YouTube URL
             s = eval(s) if s.isnumeric() else s  # i.e. s = '0' local webcam
             self.cap = cv2.VideoCapture(s)
             self.w = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
             self.h = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
             self.fps[i] = max(self.cap.get(cv2.CAP_PROP_FPS) % 100, 0) or 30.0  # 30 FPS fallback
-            self.frames[i] = max(int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT)), 0) or float('inf')  # infinite stream fallback
+            self.frames[i] = max(int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT)), 0) or float(
+                'inf')  # infinite stream fallback
 
             _, self.imgs[i] = self.cap.read()  # guarantee first frame
             self.threads[i] = Thread(target=self.update, args=([i, self.cap]), daemon=True)
@@ -890,7 +892,7 @@ def dataset_stats(path='coco128.yaml', autodownload=False, verbose=False):
     """ Return dataset statistics dictionary with images and instances counts per split per class
     Usage1: from utils.datasets import *; dataset_stats('coco128.yaml', verbose=True)
     Usage2: from utils.datasets import *; dataset_stats('../datasets/coco128.zip', verbose=True)
-    
+
     Arguments
         path:           Path to data.yaml or data.zip (with data.yaml inside data.zip)
         autodownload:   Attempt to download dataset if not found locally

@@ -72,14 +72,16 @@ class Model(QtCore.QObject):
 
     # __int__ : 생성자
     # classes:발생한 카메라
-    # camNum: 카메라 번호, PC에 연결된 카메라의 기기 번호
+    # source: 영상 소스(카메라 번호 또는 영상의 경로)
+    # display : 화면에 출력할 위치
     # alert_browser: 로그 알람을 위해 받은 ui 파일의 list
     # parent : 상속한 class
-    def __init__(self, classes, camNum, alert_browser=None, parent=None):
+    def __init__(self, classes, source, display, alert_browser=None, parent=None):
         super(Model, self).__init__(parent)
         self.alert = alert_browser
         self.weights = weights  # 모델
-        self.source = str(camNum)  # 영상 소스
+        self.source = str(source)  # 영상 소스
+        self.num = str(display) # 영상 표시 위치
         self.imgsz = 640  # 추론될 이미지 사이즈
         self.conf_thres = 0.45  # 추론 임계값
         self.iou_thres = 0.45  # iou 임계값
@@ -91,6 +93,7 @@ class Model(QtCore.QObject):
         self.visualize = False  # visualize features
         self.half = True  # 부동소수점을 절반으로 줄여 연산량 감소
         self.running = False  # 영상 재생 신호 설정
+
         self.loadModel()  # 생성자에서 loadModel() 수행
 
         self.fallTimeList = []  # falldetion timeList
@@ -104,7 +107,6 @@ class Model(QtCore.QObject):
     # loadModel() : 모델과 cam 매칭 및 모델 생성시 이미지 추론 설정
     @torch.no_grad()
     def loadModel(self):
-        self.webcam = self.source.isnumeric()
         # 초기화
         self.device = select_device(self.device)
         self.half &= self.device.type != 'cpu'  # half precision only supported on CUDA
@@ -128,9 +130,8 @@ class Model(QtCore.QObject):
 
     # startDetecting() : 스트리밍 시작 설정 함수
     def startDetecting(self):
-        if self.webcam:
-            cudnn.benchmark = True  # set True to speed up constant image size inference
-            self.dataset = LoadStreams(self.source, img_size=self.imgsz, stride=self.stride)
+        cudnn.benchmark = True  # set True to speed up constant image size inference
+        self.dataset = LoadStreams(self.source, img_size=self.imgsz, stride=self.stride)
         # 동영상 저장 정보 설정
         self.setSavevideo()
         # run()에서 반복문이 지속되도록 running = True 설정
@@ -146,11 +147,11 @@ class Model(QtCore.QObject):
         # 동영상 저장 경로 설정
         now = datetime.datetime.now()
         self.starttime = datetime.datetime.now()
-        self.savename = "./data/Recording/" + self.source + "/" + now.strftime('%Y%m%d') + ".mp4"
+        self.savename = "./data/Recording/" + str(self.num) + "/" + now.strftime('%Y%m%d') + ".mp4"
         # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
         try:
-            if not (os.path.isdir("./data/Recording/" + self.source)):
-                os.makedirs(os.path.join("./data/Recording/" + self.source))
+            if not (os.path.isdir("./data/Recording/" + str(self.num))):
+                os.makedirs(os.path.join("./data/Recording/" + str(self.num)))
         # 생성 실패 시 오류 코드 출력
         except OSError as e:
             if e.errno != errno.EEXIST:
@@ -160,7 +161,7 @@ class Model(QtCore.QObject):
         codec = cv2.VideoWriter_fourcc(*'mp4v')
         self.out = cv2.VideoWriter(self.savename, codec, fps, ((int(width)), (int(height))))
         # DB에 동영상 관련 정보 저장
-        db = videoDB.DBvideo(self.source, self.starttime, self.savename)
+        db = videoDB.DBvideo(str(self.num), self.starttime, self.savename)
         db.makerecord()
         del db
 
@@ -252,7 +253,7 @@ class Model(QtCore.QObject):
         showtime = datetime.datetime.now()
         cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10, 710), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255))
         cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (1200, 710), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255))
-        cv2.putText(self.im0, 'CAM' + str(self.source), (1200, 25), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
+        cv2.putText(self.im0, 'CAM' + str(self.num), (1200, 25), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
 
         # 출력 형태 결정
         hi, wi = self.im0.shape[:2]
@@ -288,7 +289,7 @@ class Model(QtCore.QObject):
             raise
         # 스크린샷 수행 및 저장, DB에 해당 정보 추가
         cv2.imwrite(path, self.im0)
-        im = logDB.DBlog(self.source, now, path, situation)
+        im = logDB.DBlog(str(self.num), now, path, situation)
         im.makerecord()
         del im
 
@@ -298,13 +299,13 @@ class Model(QtCore.QObject):
         # 로그 알림 창에 출력할 list에 발생 상황 정보 추가
         now = datetime.datetime.now()
         if situation == 1:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : 환자 발생\n")
+            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 환자 발생\n")
         elif situation == 2:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : 휠체어\n")
+            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 휠체어\n")
         elif situation == 3:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : 목발 사용자\n")
+            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 목발 사용자\n")
         elif situation == 4:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {self.source}\n상황 : 맹인안내견\n")
+            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 맹인안내견\n")
         self.alert.moveCursor(QtGui.QTextCursor.End)
         self.alert.ensureCursorVisible()
 
