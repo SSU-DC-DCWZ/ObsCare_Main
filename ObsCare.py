@@ -5,6 +5,7 @@ from ui.play_ui import *
 from Detect.DetectVideo import Model, ImageViewer
 
 import cv2
+import os
 
 # Display : 사용할 thread, Model 객체를 한번에 관리하기 위한 클래스 
 class Display:
@@ -31,6 +32,7 @@ class Display:
         self.vid.stopDetecting()
         self.thread.quit()
 
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     # ui.play_ui의 WindowClass 이용하여 창 객체 생성
@@ -47,7 +49,7 @@ if __name__ == '__main__':
     displaylist = []
     img_idx = 0
     for i in range(10):
-        if cv2.VideoCapture(i).isOpened():
+        if os.path.isdir("/dev/video" + str(i)):
             displaylist.append(Display(i, myWindow.alert_browser, image_viewer[img_idx]))
             img_idx += 1
     
