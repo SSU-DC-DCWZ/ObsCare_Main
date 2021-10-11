@@ -98,7 +98,8 @@ class Model(QtCore.QObject):
         self.id = None  # 식별 id
         self.fallId = None  # falled 식별 id
         self.objectId = None  # object 식별 id
-        self.noti = None  # notity parameter
+        self.notiObj = None  # notity parameter
+        self.notiFall = None
 
     # loadModel() : 모델과 cam 매칭 및 모델 생성시 이미지 추론 설정
     @torch.no_grad()
@@ -208,6 +209,7 @@ class Model(QtCore.QObject):
             self.fallId = self.id
         elif self.fallId != self.id:
             self.fallId = None
+            self.notiFall = None
             return
         else:
             now = datetime.datetime.now()
@@ -222,25 +224,27 @@ class Model(QtCore.QObject):
                 self.fallTimeList = []
             # print(time.total_seconds())
             if int(time.total_seconds()) == 5:  ##연속적 falldetect
-                print("fall is detected")
-                self.captureSituation(self.c)
-                self.sendLog(self.c)
-                print(datetime.datetime.now())
-                self.fallTimeList = []  ## 시간 초기화
+                if self.notiFall == None:
+                    print("fall is detected")
+                    self.captureSituation(self.c)
+                    self.sendLog(self.c)
+                    print(datetime.datetime.now())
+                    self.fallTimeList = []  ## 시간 초기화
+                    self.notiFall = 1
 
     # processObject() : 특정 사물 감지시 로그 발생
     def processObject(self):
         if self.objectId is None:
             self.objectId = self.id
         elif self.objectId != self.id:
-            self.noti = None
+            self.notiObj = None
             return
         else:
-            if self.objectId == self.id and self.noti == None:
+            if self.objectId == self.id and self.notiObj == None:
                 print("detected")
                 self.captureSituation(self.c)
                 self.sendLog(self.c)
-                self.noti = 1
+                self.notiObj = 1
 
     # loadVideo() : 프레임 각각에 대한 처리를 위한 함수
     def loadVideo(self):
