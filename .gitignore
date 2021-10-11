@@ -6,3 +6,5 @@ build
 venv
 dist
 runs
+test.mkv
+test.py

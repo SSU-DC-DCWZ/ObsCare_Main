@@ -126,6 +126,17 @@ class Model(QtCore.QObject):
                                  nn_budget=cfg.DEEPSORT.NN_BUDGET,
                                  use_cuda=True)
 
+    # startDetecting() : 스트리밍 시작 설정 함수
+    def startDetecting(self):
+        if self.webcam:
+            cudnn.benchmark = True  # set True to speed up constant image size inference
+            self.dataset = LoadStreams(self.source, img_size=self.imgsz, stride=self.stride)
+        # 동영상 저장 정보 설정
+        self.setSavevideo()
+        # run()에서 반복문이 지속되도록 running = True 설정
+        self.running = True
+        self.playStream()
+
     # setSavevideo() : 동영상 저장 경로 및 DB 관리
     def setSavevideo(self):
         # 웹캠의 영상 정보 처리
@@ -152,17 +163,6 @@ class Model(QtCore.QObject):
         db = videoDB.DBvideo(self.source, self.starttime, self.savename)
         db.makerecord()
         del db
-
-    # startDetecting() : 스트리밍 시작 설정 함수
-    def startDetecting(self):
-        if self.webcam:
-            cudnn.benchmark = True  # set True to speed up constant image size inference
-            self.dataset = LoadStreams(self.source, img_size=self.imgsz, stride=self.stride)
-        # 동영상 저장 정보 설정
-        self.setSavevideo()
-        # run()에서 반복문이 지속되도록 running = True 설정
-        self.running = True
-        self.playStream()
 
     # stopDetecting(): 스트리밍 정지 및 저장 함수
     def stopDetecting(self):
