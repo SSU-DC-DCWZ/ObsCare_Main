@@ -251,9 +251,9 @@ class Model(QtCore.QObject):
     def loadVideo(self):
         # 스트리밍 화면에 시간, 카메라번호 출력
         showtime = datetime.datetime.now()
-        cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10, 710), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255))
-        cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (1200, 710), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255))
-        cv2.putText(self.im0, 'CAM' + str(self.num), (1200, 25), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
+        cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10, self.dataset.h - 10), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
+        cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (self.dataset.w - 100, self.dataset.h - 10), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
+        cv2.putText(self.im0, 'CAM' + str(self.num), (self.dataset.w - 80, 25), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
 
         # 출력 형태 결정
         hi, wi = self.im0.shape[:2]
