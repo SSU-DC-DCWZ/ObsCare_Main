@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
 from ui.play_ui import *
-from Detect.DetectVideo import Model, ImageViewer
+from Detect.DetectVideo import Model
 
 # Display : 사용할 thread, Model 객체를 한번에 관리하기 위한 클래스
 class Display:
