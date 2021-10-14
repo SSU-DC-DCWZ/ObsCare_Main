@@ -9,6 +9,10 @@
 ## 시스템 구성도
 ![image](https://user-images.githubusercontent.com/49185035/132118172-4c61f4bd-609e-4407-8e78-bbd160e2339e.png)
 
+## 시연 영상
+[![Video Label](https://user-images.githubusercontent.com/60226988/137311524-d325a2f5-e579-4a9d-8470-173a1f4ba58d.jpg)](https://www.youtube.com/watch?v=wJdjtgeti40)  
+(클릭하면 유튜브 링크로 이동합니다)
+
 ## 시연 화면
 ### 상황 감지 시 log 발생
 ![image](https://user-images.githubusercontent.com/49185035/132118122-bc0d449c-721b-45e6-a11f-87774ec60777.png)
