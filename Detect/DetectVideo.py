@@ -71,14 +71,14 @@ class Model(QtCore.QObject):
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
 
     # __int__ : 생성자
-    # classes:발생한 카메라
+    # classes: 검출 클래스 filter by class
     # source: 영상 소스(카메라 번호 또는 영상의 경로)
     # display : 화면에 출력할 위치
     # alert_browser: 로그 알람을 위해 받은 ui 파일의 list
     # parent : 상속한 class
-    def __init__(self, classes, source, display, alert_browser=None, parent=None):
+    def __init__(self, classes, source, display, alert_browser, parent=None):
         super(Model, self).__init__(parent)
-        self.initDetectParmeter(classes, source, display)
+        self.initDetectParmeter(classes, source, display, alert_browser)
         self.loadModel()  # 생성자에서 loadModel() 수행
 
         
@@ -346,7 +346,7 @@ class Model(QtCore.QObject):
                     plot_one_box(bboxes, self.im0, label=label, color=color,
                                  line_thickness=2)  # 이미지 위에 출력될 바운딩 박스를 생성합니다.
     
-    def initDetectParmeter(self, classes, source, display):
+    def initDetectParmeter(self, classes, source, display, alert_browser):
 
         self.alert = alert_browser
         self.weights = weights  # 모델
