@@ -81,7 +81,29 @@ class Model(QtCore.QObject):
         self.initDetectParmeter(classes, source, display, alert_browser)
         self.loadModel()  # 생성자에서 loadModel() 수행
 
-        
+    def initDetectParameter(self, classes, source, display, alert_browser):
+        self.alert = alert_browser
+        self.weights = weights  # 모델
+        self.source = str(source)  # 영상 소스
+        self.num = str(display) # 영상 표시 위치
+        self.imgsz = 640  # 추론될 이미지 사이즈
+        self.conf_thres = 0.45  # 추론 임계값
+        self.iou_thres = 0.45  # iou 임계값
+        self.max_det = 1000  # 최대 detection 개수
+        self.device = ''  # cuda device, i.e. 0 or 0,1,2,3 or cpu
+        self.classes = [1, 2, 3, 4]  # 검출 클래스 filter by class: --class 0, or --class 0 2 3
+        self.agnostic_nms = True  # NMS 활성화 class-agnostic NMS
+        self.augment = False  # augmented inference
+        self.visualize = False  # visualize features
+        self.half = True  # 부동소수점을 절반으로 줄여 연산량 감소
+        self.running = False  # 영상 재생 신호 설정
+
+        self.fallTimeList = []  # falldetion timeList
+        self.id = None  # 식별 id
+        self.fallId = None  # falled 식별 id
+        self.objectId = None  # object 식별 id
+        self.notiObj = None  # notity parameter
+        self.notiFall = None
 
     # loadModel() : 모델과 cam 매칭 및 모델 생성시 이미지 추론 설정
     @torch.no_grad()
@@ -346,28 +368,5 @@ class Model(QtCore.QObject):
                     plot_one_box(bboxes, self.im0, label=label, color=color,
                                  line_thickness=2)  # 이미지 위에 출력될 바운딩 박스를 생성합니다.
     
-    def initDetectParmeter(self, classes, source, display, alert_browser):
 
-        self.alert = alert_browser
-        self.weights = weights  # 모델
-        self.source = str(source)  # 영상 소스
-        self.num = str(display) # 영상 표시 위치
-        self.imgsz = 640  # 추론될 이미지 사이즈
-        self.conf_thres = 0.45  # 추론 임계값
-        self.iou_thres = 0.45  # iou 임계값
-        self.max_det = 1000  # 최대 detection 개수
-        self.device = ''  # cuda device, i.e. 0 or 0,1,2,3 or cpu
-        self.classes = [1, 2, 3, 4]  # 검출 클래스 filter by class: --class 0, or --class 0 2 3
-        self.agnostic_nms = True  # NMS 활성화 class-agnostic NMS
-        self.augment = False  # augmented inference
-        self.visualize = False  # visualize features
-        self.half = True  # 부동소수점을 절반으로 줄여 연산량 감소
-        self.running = False  # 영상 재생 신호 설정
-
-        self.fallTimeList = []  # falldetion timeList
-        self.id = None  # 식별 id
-        self.fallId = None  # falled 식별 id
-        self.objectId = None  # object 식별 id
-        self.notiObj = None  # notity parameter
-        self.notiFall = None
         
