@@ -78,7 +78,7 @@ class Model(QtCore.QObject):
     # parent : 상속한 class
     def __init__(self, classes, source, display, alert_browser, parent=None):
         super(Model, self).__init__(parent)
-        self.initDetectParmeter(classes, source, display, alert_browser)
+        self.initDetectParameter(classes, source, display, alert_browser)
         self.loadModel()  # 생성자에서 loadModel() 수행
 
     def initDetectParameter(self, classes, source, display, alert_browser):
