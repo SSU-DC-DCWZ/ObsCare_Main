@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1093</width>
+    <width>1115</width>
     <height>778</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>ObsCure</string>
+   <string>ObsCare</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -30,13 +30,6 @@
     <string notr="true">background-color:gray;</string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" rowspan="2">
-     <layout class="QGridLayout" name="video_layout">
-      <property name="spacing">
-       <number>1</number>
-      </property>
-     </layout>
-    </item>
     <item row="0" column="1" rowspan="2">
      <layout class="QVBoxLayout" name="alert_layout">
       <property name="spacing">
@@ -45,50 +38,54 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item>
-       <widget class="QTextBrowser" name="alert_browser">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>400</width>
-          <height>16777215</height>
-         </size>
-        </property>
+     </layout>
+    </item>
+    <item row="0" column="0" rowspan="2">
+     <layout class="QGridLayout" name="video_layout">
+      <property name="spacing">
+       <number>1</number>
+      </property>
+      <item row="0" column="1">
+       <widget class="QLabel" name="box2">
         <property name="styleSheet">
-         <string notr="true">background-color : white;</string>
+         <string notr="true">border : none;
+background-color : transparent;</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="exit_button">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>400</width>
-          <height>16777215</height>
-         </size>
-        </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="box3">
         <property name="styleSheet">
-         <string notr="true">background-color:gray;</string>
+         <string notr="true">border : none;
+background-color : transparent;</string>
         </property>
         <property name="text">
-         <string>나가기</string>
+         <string/>
         </property>
-        <property name="autoDefault">
-         <bool>false</bool>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="box4">
+        <property name="styleSheet">
+         <string notr="true">border : none;
+background-color : transparent;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="box1">
+        <property name="styleSheet">
+         <string notr="true">border : none;
+background-color : transparent;</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -101,8 +98,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1093</width>
-     <height>21</height>
+     <width>1115</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -124,9 +121,16 @@
     <addaction name="actionemergency"/>
     <addaction name="actionfront_desk"/>
    </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>도움말</string>
+    </property>
+    <addaction name="action_help"/>
+   </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
    <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
   </widget>
   <action name="actionHome">
    <property name="text">
@@ -151,6 +155,11 @@
   <action name="actionPrevious_Video">
    <property name="text">
     <string>Previous Video</string>
+   </property>
+  </action>
+  <action name="action_help">
+   <property name="text">
+    <string>도움말 확인하기</string>
    </property>
   </action>
  </widget>

@@ -57,20 +57,10 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
          <property name="spacing">
           <number>10</number>
          </property>
-         <item>
-          <widget class="QPushButton" name="btn_prev">
-           <property name="text">
-            <string>◀◀</string>
-           </property>
-           <property name="shortcut">
-            <string>Left</string>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QPushButton" name="btn_play_pause">
            <property name="text">
@@ -78,16 +68,6 @@
            </property>
            <property name="shortcut">
             <string>Space</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_forward">
-           <property name="text">
-            <string>▶▶</string>
-           </property>
-           <property name="shortcut">
-            <string>Right</string>
            </property>
           </widget>
          </item>

@@ -22,7 +22,7 @@ if __name__ == '__main__':
     for i in range(10):
         if os.path.exists("/dev/video" + str(i)):
             if cv2.VideoCapture(i).isOpened():
-                displaylist.append(Display(i, img_idx, myWindow.alert_browser, image_viewer[img_idx]))
+                displaylist.append(Display(i, img_idx, myWindow, image_viewer[img_idx]))
                 img_idx += 1
 
     # displaylist에 포함되어있는 Display 객체의 영상 재생
@@ -35,6 +35,11 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer[2], 1, 0)
     myWindow.video_layout.addWidget(image_viewer[3], 1, 1)
 
+    myWindow.box1.raise_()
+    myWindow.box2.raise_()
+    myWindow.box3.raise_()
+    myWindow.box4.raise_()
+    
     # 전체화면으로 실행
     myWindow.showFullScreen()
     # app 실행

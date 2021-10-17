@@ -76,13 +76,13 @@ class Model(QtCore.QObject):
     # display : 화면에 출력할 위치
     # alert_browser: 로그 알람을 위해 받은 ui 파일의 list
     # parent : 상속한 class
-    def __init__(self, classes, source, display, alert_browser, parent=None):
+    def __init__(self, classes, source, display, window, parent=None):
         super(Model, self).__init__(parent)
-        self.initDetectParameter(classes, source, display, alert_browser)
+        self.initDetectParameter(classes, source, display, window)
         self.loadModel()  # 생성자에서 loadModel() 수행
 
-    def initDetectParameter(self, classes, source, display, alert_browser):
-        self.alert = alert_browser
+    def initDetectParameter(self, classes, source, display, window):
+        self.window = window
         self.weights = weights  # 모델
         self.source = str(source)  # 영상 소스
         self.num = str(display) # 영상 표시 위치
@@ -300,15 +300,13 @@ class Model(QtCore.QObject):
         # 로그 알림 창에 출력할 list에 발생 상황 정보 추가
         now = datetime.datetime.now()
         if situation == 1:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 환자 발생\n")
+            self.window.make_alert(now, self.num, '환자발생')
         elif situation == 2:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 휠체어\n")
+            self.window.make_alert(now, self.num, '휠체어')
         elif situation == 3:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 목발 사용자\n")
+            self.window.make_alert(now, self.num, '목발 사용자')
         elif situation == 4:
-            self.alert.append(f"*상황발생*\n시간 : {now.strftime('%H:%M:%S')}\n위치 : {str(self.num)}\n상황 : 맹인안내견\n")
-        self.alert.moveCursor(QtGui.QTextCursor.End)
-        self.alert.ensureCursorVisible()
+            self.window.make_alert(now, self.num, '맹인 안내견')
 
     # runInference() : 받아온 영상을 바탕으로 프레임 단위로 영상 추론 실행
     # path : 이미지 경로값
