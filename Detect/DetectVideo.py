@@ -80,6 +80,8 @@ class Model(QtCore.QObject):
         super(Model, self).__init__(parent)
         self.initDetectParameter(classes, source, display, window)
         self.loadModel()  # 생성자에서 loadModel() 수행
+        now = datetime.datetime.now()
+        self.window.make_alert(now, int(self.num), '환자발생')
 
     def initDetectParameter(self, classes, source, display, window):
         self.window = window
