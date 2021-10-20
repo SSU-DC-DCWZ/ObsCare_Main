@@ -92,7 +92,7 @@ class WindowClass(QMainWindow, form_class):
 
             self.PrevVideo = PrevVideo(get_path)  # 이전 영상 재생 객체 생성
             self.PrevVideo.show()
-\
+
     # make_alert(i) : i 상황을 기준으로 alert_layout에 알림 생성
     def make_alert(self, time, location, situation):
         txt = f"**상황발생**\n시간 : {time.strftime('%H:%M:%S')}\n위치 : {str(location)}\n상황 : {situation}"  # 위치 자리에 self.num, 상황 자리에 situation
