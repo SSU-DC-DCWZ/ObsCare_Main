@@ -27,7 +27,6 @@ from utils.parser import get_config
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
-from PyQt5.QtCore import pyqtSlot
 
 from DB_video import videoDB
 from DB_log import logDB
@@ -69,6 +68,8 @@ def compute_color_for_id(label):
 class Model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
+    
+    AlertSignal = QtCore.pyqtSignal(datetime.datetime, int, str)
 
     # __int__ : 생성자
     # classes: 검출 클래스 filter by class
@@ -76,13 +77,12 @@ class Model(QtCore.QObject):
     # display : 화면에 출력할 위치
     # alert_browser: 로그 알람을 위해 받은 ui 파일의 list
     # parent : 상속한 class
-    def __init__(self, classes, source, display, window, parent=None):
+    def __init__(self, classes, source, display, parent=None):
         super(Model, self).__init__(parent)
-        self.initDetectParameter(classes, source, display, window)
+        self.initDetectParameter(classes, source, display)
         self.loadModel()  # 생성자에서 loadModel() 수행
 
-    def initDetectParameter(self, classes, source, display, window):
-        self.window = window
+    def initDetectParameter(self, classes, source, display):
         self.weights = weights  # 모델
         self.source = str(source)  # 영상 소스
         self.num = str(display) # 영상 표시 위치
@@ -174,8 +174,6 @@ class Model(QtCore.QObject):
 
     # playStream() : 스트리밍을 진행하는 함수
     def playStream(self):
-        now = datetime.datetime.now()
-        self.window.make_alert(now, int(self.num), '환자발생')
         # 추론 시행
         if self.device.type != 'cpu':
             self.model(torch.zeros(1, 3, self.imgsz, self.imgsz).to(self.device).type_as(
@@ -229,10 +227,8 @@ class Model(QtCore.QObject):
             # print(time.total_seconds())
             if int(time.total_seconds()) == 5:  ##연속적 falldetect
                 if self.notiFall == None:
-                    print("fall is detected")
                     self.captureSituation(self.c)
                     self.sendLog(self.c)
-                    print(datetime.datetime.now())
                     self.fallTimeList = []  ## 시간 초기화
                     self.notiFall = 1
 
@@ -302,13 +298,16 @@ class Model(QtCore.QObject):
         # 로그 알림 창에 출력할 list에 발생 상황 정보 추가
         now = datetime.datetime.now()
         if situation == 1:
-            self.window.make_alert(now, int(self.num), '환자발생')
+            self.AlertSignal.emit(now, int(self.num), 'detect')
+            
+        '''
         elif situation == 2:
-            self.window.make_alert(now, int(self.num), '휠체어')
+             self.make_alert(now, int(self.num), '휠체어')
         elif situation == 3:
             self.window.make_alert(now, int(self.num), '목발 사용자')
         elif situation == 4:
             self.window.make_alert(now, int(self.num), '맹인 안내견')
+        '''
 
     # runInference() : 받아온 영상을 바탕으로 프레임 단위로 영상 추론 실행
     # path : 이미지 경로값

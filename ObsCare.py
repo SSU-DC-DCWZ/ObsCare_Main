@@ -22,7 +22,7 @@ if __name__ == '__main__':
     for i in range(10):
         if os.path.exists("/dev/video" + str(i)):
             if cv2.VideoCapture(i).isOpened():
-                displaylist.append(Display(i, img_idx, myWindow, image_viewer[img_idx]))
+                displaylist.append(Display(i, img_idx, image_viewer[img_idx], myWindow))
                 img_idx += 1
 
     # displaylist에 포함되어있는 Display 객체의 영상 재생
