@@ -113,7 +113,7 @@ class WindowClass(QMainWindow, form_class):
         self.alert_list.addWidget(btn)  # 버튼 삽입
         self.alert_list.setAlignment(Qt.AlignTop)
 
-        self.alert_sound()  # 알림 소리 울리도록 함
+        # self.alert_sound()  # 알림 소리 울리도록 함
 
     # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
     def end_situation(self):
