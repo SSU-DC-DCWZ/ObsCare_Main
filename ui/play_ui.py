@@ -92,13 +92,7 @@ class WindowClass(QMainWindow, form_class):
 
             self.PrevVideo = PrevVideo(get_path)  # 이전 영상 재생 객체 생성
             self.PrevVideo.show()
-
-    # alert_sound : 상황 발생 시 소리로 알림 주기 위함
-    def alert_sound(self):
-        for _ in range(5):
-            # winsound.Beep(2500, 100)  # only work on Windows OS
-            time.sleep(1)  # 알림음 사이 간격 두기 위함
-
+\
     # make_alert(i) : i 상황을 기준으로 alert_layout에 알림 생성
     def make_alert(self, time, location, situation):
         txt = f"**상황발생**\n시간 : {time.strftime('%H:%M:%S')}\n위치 : {str(location)}\n상황 : {situation}"  # 위치 자리에 self.num, 상황 자리에 situation
@@ -113,7 +107,6 @@ class WindowClass(QMainWindow, form_class):
         self.alert_list.addWidget(btn)  # 버튼 삽입
         self.alert_list.setAlignment(Qt.AlignTop)
 
-        # self.alert_sound()  # 알림 소리 울리도록 함
 
     # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
     def end_situation(self):
