@@ -80,8 +80,6 @@ class Model(QtCore.QObject):
         super(Model, self).__init__(parent)
         self.initDetectParameter(classes, source, display, window)
         self.loadModel()  # 생성자에서 loadModel() 수행
-        now = datetime.datetime.now()
-        self.window.make_alert(now, int(self.num), '환자발생')
 
     def initDetectParameter(self, classes, source, display, window):
         self.window = window
@@ -176,6 +174,8 @@ class Model(QtCore.QObject):
 
     # playStream() : 스트리밍을 진행하는 함수
     def playStream(self):
+        now = datetime.datetime.now()
+        self.window.make_alert(now, int(self.num), '환자발생')
         # 추론 시행
         if self.device.type != 'cpu':
             self.model(torch.zeros(1, 3, self.imgsz, self.imgsz).to(self.device).type_as(
