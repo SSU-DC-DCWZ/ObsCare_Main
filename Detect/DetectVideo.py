@@ -300,13 +300,13 @@ class Model(QtCore.QObject):
         # 로그 알림 창에 출력할 list에 발생 상황 정보 추가
         now = datetime.datetime.now()
         if situation == 1:
-            self.window.make_alert(now, self.num, '환자발생')
+            self.window.make_alert(now, int(self.num), '환자발생')
         elif situation == 2:
-            self.window.make_alert(now, self.num, '휠체어')
+            self.window.make_alert(now, int(self.num), '휠체어')
         elif situation == 3:
-            self.window.make_alert(now, self.num, '목발 사용자')
+            self.window.make_alert(now, int(self.num), '목발 사용자')
         elif situation == 4:
-            self.window.make_alert(now, self.num, '맹인 안내견')
+            self.window.make_alert(now, int(self.num), '맹인 안내견')
 
     # runInference() : 받아온 영상을 바탕으로 프레임 단위로 영상 추론 실행
     # path : 이미지 경로값
