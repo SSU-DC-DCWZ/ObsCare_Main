@@ -35,6 +35,7 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer[2], 1, 0)
     myWindow.video_layout.addWidget(image_viewer[3], 1, 1)
 
+    # 알림 위한 frame 앞으로 가져오기
     myWindow.box1.raise_()
     myWindow.box2.raise_()
     myWindow.box3.raise_()
