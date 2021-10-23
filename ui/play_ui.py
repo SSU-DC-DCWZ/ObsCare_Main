@@ -40,7 +40,7 @@ class WindowClass(QMainWindow, form_class):
         self.setUI()  # UI 파일 가져오기
 
         self.real_labels = [self.box1, self.box2, self.box3, self.box4]  # 테두리 창들로 이뤄진 list
-        self.btn_info = {}  # btn : 몇 번 화면 으로 구성된 dict
+        self.btn_info = {}  # btn : 화면 위치로 구성된 dict
         self.alert_cnt = [0 for _ in range(4)]  # 현재 특정 위치에 알림이 몇 개 생겼는지 확인하기 위한 list
 
         self.action_prev_video.triggered.connect(self.get_find_date)  # 이전 영상 보기 메뉴와 연결
@@ -48,7 +48,7 @@ class WindowClass(QMainWindow, form_class):
 
     # setUI : UI 구상 추가
     def setUI(self):
-        # introduction
+        # layer name 위에 띄워주기 위함. style 지정
         window_name = QLabel("Alert List")
         window_name.setStyleSheet("color:white;")
         window_name.setFont(QFont("Roboto", 17))
@@ -94,9 +94,10 @@ class WindowClass(QMainWindow, form_class):
             self.PrevVideo.show()
 
     # make_alert(i) : i 상황을 기준으로 alert_layout에 알림 생성
+    # 상황 발생 시 signal을 받아 해당 함수 실행
     @QtCore.pyqtSlot(datetime.datetime, int, str)
     def make_alert(self, time, location, situation):
-        txt = f"**상황발생**\n시간 : {time.strftime('%H:%M:%S')}\n위치 : {str(location)}\n상황 : {situation}"  # 위치 자리에 self.num, 상황 자리에 situation
+        txt = f"**상황발생**\n시간 : {time.strftime('%H:%M:%S')}\n위치 : {str(location)}\n상황 : {situation}"  # 알림 버튼에 들어갈 내용
         btn = QPushButton(txt)  # 알림 관련 버튼 생성
         self.btn_info[btn] = location  # self.btn_info에 btn : 위치 정보 삽입
         btn.clicked.connect(self.end_situation)  # 버튼 클릭 시 end_situation() 함수 실행
