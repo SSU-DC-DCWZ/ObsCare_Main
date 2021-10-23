@@ -64,6 +64,7 @@ class WindowClass(QMainWindow, form_class):
         self.alert_layout.addWidget(self.scroll)
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(tmp_widget)
+        self.scroll.setMaximumWidth(400)
 
         # exit button
         self.exit_button = QPushButton("나가기")
