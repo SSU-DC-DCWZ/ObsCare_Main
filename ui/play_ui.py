@@ -45,7 +45,6 @@ class WindowClass(QMainWindow, form_class):
 
         self.action_prev_video.triggered.connect(self.get_find_date)  # 이전 영상 보기 메뉴와 연결
         self.action_help.triggered.connect(self.help_window)  # 도움말 보기 창 열기
-        # self.show_alert()
 
     # setUI : UI 구상 추가
     def setUI(self):
