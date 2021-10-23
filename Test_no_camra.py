@@ -18,8 +18,8 @@ if __name__ == '__main__':
 
     # 현재 접근 가능한 카메라 확인 및 displaylist로 연결 가능한 카메라 수만큼 Display 객체 생성
     displaylist = []
-    displaylist.append(Display('test1.mkv', 0, myWindow.alert_browser, image_viewer[0]))
-    displaylist.append(Display('test2.mkv', 1, myWindow.alert_browser, image_viewer[1]))
+    displaylist.append(Display('test1.mkv', 0, image_viewer[0], myWindow))
+    # displaylist.append(Display('test2.mkv', 1, image_viewer[1], myWindow))
     # displaylist.append(Display('test3.mkv', 2, myWindow.alert_browser, image_viewer[2]))
     # displaylist.append(Display('test4.mkv', 3, myWindow.alert_browser, image_viewer[3]))
 

@@ -68,7 +68,7 @@ def compute_color_for_id(label):
 class Model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
-    
+
     AlertSignal = QtCore.pyqtSignal(datetime.datetime, int, str)
 
     # __int__ : 생성자
@@ -85,7 +85,7 @@ class Model(QtCore.QObject):
     def initDetectParameter(self, classes, source, display):
         self.weights = weights  # 모델
         self.source = str(source)  # 영상 소스
-        self.num = str(display) # 영상 표시 위치
+        self.num = str(display)  # 영상 표시 위치
         self.imgsz = 640  # 추론될 이미지 사이즈
         self.conf_thres = 0.45  # 추론 임계값
         self.iou_thres = 0.45  # iou 임계값
@@ -250,13 +250,15 @@ class Model(QtCore.QObject):
     def loadVideo(self):
         # 스트리밍 화면에 시간, 카메라번호 출력
         showtime = datetime.datetime.now()
-        cv2.putText(self.im0, showtime.strftime('%Y/%m/%d'), (10, self.dataset.h - 10), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
-        cv2.putText(self.im0, showtime.strftime('%H:%M:%S'), (self.dataset.w - 100, self.dataset.h - 10), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
-        cv2.putText(self.im0, 'CAM' + str(self.num), (self.dataset.w - 80, 25), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
+
+        dst = cv2.resize(self.im0, dsize=(1280, 720), interpolation=cv2.INTER_AREA)
+        cv2.putText(dst, showtime.strftime('%Y/%m/%d'), (10, 710), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
+        cv2.putText(dst, showtime.strftime('%H:%M:%S'), (1180, 710), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
+        cv2.putText(dst, 'CAM' + str(self.num), (1200, 25), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255))
 
         # 출력 형태 결정
-        hi, wi = self.im0.shape[:2]
-        color_swapped_image = cv2.cvtColor(self.im0, cv2.COLOR_BGR2RGB)
+        hi, wi = dst.shape[:2]
+        color_swapped_image = cv2.cvtColor(dst, cv2.COLOR_BGR2RGB)
         qt_image1 = QtGui.QImage(color_swapped_image.data,
                                  wi,
                                  hi,
@@ -266,7 +268,7 @@ class Model(QtCore.QObject):
         self.VideoSignal.emit(qt_image1)
 
         # 프레임 단위 저장
-        self.out.write(self.im0)
+        self.out.write(dst)
 
         loop = QtCore.QEventLoop()
         QtCore.QTimer.singleShot(25, loop.quit)  # 25 ms
@@ -299,7 +301,7 @@ class Model(QtCore.QObject):
         now = datetime.datetime.now()
         if situation == 1:
             self.AlertSignal.emit(now, int(self.num), 'detect')
-            
+
         '''
         elif situation == 2:
              self.make_alert(now, int(self.num), '휠체어')
@@ -366,6 +368,6 @@ class Model(QtCore.QObject):
                     color = compute_color_for_id(self.id)
                     plot_one_box(bboxes, self.im0, label=label, color=color,
                                  line_thickness=2)  # 이미지 위에 출력될 바운딩 박스를 생성합니다.
-    
 
-        
+
+
