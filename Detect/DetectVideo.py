@@ -303,7 +303,7 @@ class Model(QtCore.QObject):
         if situation == 1:
             self.AlertSignal.emit(now, int(self.num), '환자 발생')
         elif situation == 2:
-             self.AlertSignal.emit(now, int(self.num), '휠체어')
+            self.AlertSignal.emit(now, int(self.num), '휠체어')
         elif situation == 3:
             self.AlertSignal.emit(now, int(self.num), '목발 사용자')
         elif situation == 4:
