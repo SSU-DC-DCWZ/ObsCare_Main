@@ -220,6 +220,8 @@ class Model(QtCore.QObject):
 
             if int(time.total_seconds()) >= 6:
                 self.fallTimeList = []
+                time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
+                self.notifall = 0
             # print(time.total_seconds())
             if int(time.total_seconds()) == 5:  ##연속적 falldetect
                 if self.notiFall == None:
