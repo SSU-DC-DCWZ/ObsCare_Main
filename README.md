@@ -68,6 +68,13 @@ Python 3.8.10
 #### **이찬서**([Lfollow-CS](https://github.com/Lfollow-CS)) : DB,Stream 관리 및 개별 프로젝트 통합
 #### **박세진**([pseeej](https://github.com/pseeej)) : UI 생성 및 Model 스레딩 관리
 
+## 라이브러리 라이선스
+#### 1. yolov5
+License : GPLv3.0  
+https://github.com/ultralytics/yolov5
+#### 2. Yolov5_DeepSort_Pytorch
+License : GPLv3.0  
+https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch
+
 ## 라이선스
 #### 이 프로젝트는 [GNU General Public License v3.0](https://github.com/SSU-DC-DCWZ/ObsCare_Main/blob/main/LICENSE)을 사용합니다.
-
