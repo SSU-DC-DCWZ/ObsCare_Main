@@ -54,7 +54,7 @@ class PrevVideo(QWidget):
         temp_vid = cv2.VideoCapture(path)
         temp_vid.set(cv2.CAP_PROP_POS_AVI_RATIO, 1)
         self.vid_length = temp_vid.get(cv2.CAP_PROP_POS_MSEC)
-        self.vid_length, self.vid_time = self.calc_time(self.vid_length)
+        self.vid_length = self.calc_time(self.vid_length)
 
         # 계산한 영상 길이로 재생 바 범위 결정
         self.bar.setRange(0, self.vid_length)
