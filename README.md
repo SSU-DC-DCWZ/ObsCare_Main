@@ -37,7 +37,7 @@ source venv/bin/activate
 ### 의존성 패키지 설치
 ```
 cd ObsCare_Main
-pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+pip install torch==1.9.1+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 pip install -r requirements.txt
 ```
 
