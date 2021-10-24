@@ -119,7 +119,7 @@ class WindowClass(QMainWindow, form_class):
         btn = self.sender()  # 클릭된 버튼 정보 받아오기
         label = self.btn_info[btn]  # 버튼이 가리키고 있는 위치 정보 받아오기
 
-        if self.alert_cnt[label] == 1:  # 해당 위치의 알림이 모두 제거되었을 경우
+        if self.alert_cnt[label] <= 1:  # 해당 위치의 알림이 모두 제거되었을 경우
             self.real_labels[label].setStyleSheet('background-color : transparent; border : none;')  # 테두리 제거
             self.alert_cnt[label] = 0   # label 칸의 알림이 모두 종료되었음을 기록
         else:
