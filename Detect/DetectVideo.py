@@ -68,7 +68,6 @@ def compute_color_for_id(label):
 class Model(QtCore.QObject):
     # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
-
     AlertSignal = QtCore.pyqtSignal(datetime.datetime, int, str)
 
     # __int__ : 생성자
@@ -97,7 +96,6 @@ class Model(QtCore.QObject):
         self.visualize = False  # visualize features
         self.half = True  # 부동소수점을 절반으로 줄여 연산량 감소
         self.running = False  # 영상 재생 신호 설정
-
         self.fallTimeList = []  # falldetion timeList
         self.id = None  # 식별 id
         self.fallId = None  # falled 식별 id
@@ -117,7 +115,6 @@ class Model(QtCore.QObject):
         self.imgsz = check_img_size(self.imgsz, s=self.stride)  # check image size
         self.names = self.model.module.names if hasattr(self.model, 'module') else self.model.names  # get class names
         self.model.half()  # 모델의 부동소수점을 절반으로 줄여 연산량 감소
-
         # deepSORT 초기화
         cfg = get_config()
         cfg.merge_from_file("./deep_sort/deep_sort.yaml")
@@ -128,7 +125,6 @@ class Model(QtCore.QObject):
                                  max_age=cfg.DEEPSORT.MAX_AGE, n_init=cfg.DEEPSORT.N_INIT,
                                  nn_budget=cfg.DEEPSORT.NN_BUDGET,
                                  use_cuda=True)
-
     # startDetecting() : 스트리밍 시작 설정 함수
     def startDetecting(self):
         cudnn.benchmark = True  # set True to speed up constant image size inference
