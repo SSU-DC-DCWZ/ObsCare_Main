@@ -1,4 +1,3 @@
-# from _typeshed import Self
 import sys
 import time
 import datetime
@@ -11,7 +10,7 @@ import torch
 import torch.backends.cudnn as cudnn
 
 # 본 프로젝트는 YOLOv5 및 deepSORT를 바탕으로 object detection model을 custom train 시킨 모델을 사용합니다.
-# YOLOv5 와 deepSORT의 라이브러리 함수들을 import해 fall detection 및 specific obeject detection 및 alert 에 필요한 parameter를 가져올 수 있게 합니다.
+# YOLOv5 와 deepSORT의 라이브러리 함수들을 import해 fall detection, specific obeject detection, alert 에 필요한 parameter를 가져올 수 있게 합니다.
 FILE = Path(__file__).absolute()
 sys.path.append(FILE.parents[0].as_posix())  # add yolov5/ to path
 torch.cuda.empty_cache()
@@ -74,7 +73,6 @@ class Model(QtCore.QObject):
     # classes: 검출 클래스 filter by class
     # source: 영상 소스(카메라 번호 또는 영상의 경로)
     # display : 화면에 출력할 위치
-    # alert_browser: 로그 알람을 위해 받은 ui 파일의 list
     # parent : 상속한 class
     def __init__(self, classes, source, display, parent=None):
         super(Model, self).__init__(parent)
@@ -125,6 +123,7 @@ class Model(QtCore.QObject):
                                  max_age=cfg.DEEPSORT.MAX_AGE, n_init=cfg.DEEPSORT.N_INIT,
                                  nn_budget=cfg.DEEPSORT.NN_BUDGET,
                                  use_cuda=True)
+
     # startDetecting() : 스트리밍 시작 설정 함수
     def startDetecting(self):
         cudnn.benchmark = True  # set True to speed up constant image size inference
