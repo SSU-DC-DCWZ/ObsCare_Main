@@ -69,12 +69,47 @@ Python 3.8.10
 #### **박세진**([pseeej](https://github.com/pseeej)) : UI 생성 및 Model 스레딩 관리
 
 ## 라이브러리 라이선스
-#### 1. yolov5
+#### yolov5
 License : GPLv3.0  
 https://github.com/ultralytics/yolov5
-#### 2. Yolov5_DeepSort_Pytorch
+#### Yolov5_DeepSort_Pytorch
 License : GPLv3.0  
 https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch
-
+#### torch 1.9.1+cu111
+License : BSD 3-clause  
+https://github.com/intel/torch/blob/master/LICENSE.md
+#### OpenCV 4.2.0.34
+License : BSD 3-clause   
+https://opencv.org/
+#### PyQt5 5.15.4
+License : GPLv3.0  
+https://www.riverbankcomputing.com/software/pyqt/
+#### openpyxl 3.0.7 
+License : MIT/Expat  
+https://openpyxl.readthedocs.io/en/stable/#
+#### Pillow 8.3.1
+License : PIL   
+https://github.com/python-pillow/Pillow
+#### PyYAML 5.4.1
+License : MIT/  
+https://github.com/yaml/pyyaml
+#### scipy 1.7.0
+License : liberal BSD  
+https://www.scipy.org/index.html
+#### tensorboard 2.5.0  
+License : apache 2.0  
+https://github.com/tensorflow/tensorboard/blob/master/LICENSE
+#### tqdm 4.61.2   
+License : MPL 2.0  
+https://github.com/tqdm/tqdm/blob/master/LICENCE
+#### seaborn 0.11.1    
+License : BSD 3-clause  
+https://github.com/mwaskom/seaborn/blob/master/LICENSE
+#### pandas 1.3.0    
+License : BSD 3-clause  
+https://github.com/pandas-dev/pandas/blob/master/LICENSE
+#### easydict 1.9    
+License : GPLv3.0  
+https://github.com/makinacorpus/easydict/blob/master/LICENSE
 ## 라이선스
 #### 이 프로젝트는 [GNU General Public License v3.0](https://github.com/SSU-DC-DCWZ/ObsCare_Main/blob/main/LICENSE)을 사용합니다.
