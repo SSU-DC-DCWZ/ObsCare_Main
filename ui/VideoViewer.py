@@ -9,20 +9,20 @@ from Detect.DetectVideo import Model
 class Display:
     # __int__ : 생성자
     # source : 영상 소스(카메라 번호 또는 영상의 경로)
-    # window: 로그 알람을 위해 받은 ui 클래스
     # image_viewer : 영상 재생에 대한 객체
+    # window: 알람 시그널 설정을 위한 MyWindow 객체
     def __init__(self, source, display, image_viewer, window):
         self.image_viewer = image_viewer
         self.thread = QtCore.QThread()
         self.vid = Model(None, source, display)
         self.vid.AlertSignal.connect(window.make_alert)
+        self.start_button = QtWidgets.QPushButton()
 
     # startDisplay : 각 카메라별로 thread, Model 객체 생성 및 thread와 Model 객체 연결, 영상 재생을 위한 배경과 카메라 신호 연결, 영상 재생
     def startDisplay(self):
         self.thread.start()
         self.vid.moveToThread(self.thread)
         self.vid.VideoSignal.connect(self.image_viewer.setImage)
-        self.start_button = QtWidgets.QPushButton()
         self.start_button.clicked.connect(self.vid.startDetecting)
         self.start_button.click()
 
