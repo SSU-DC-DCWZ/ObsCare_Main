@@ -70,11 +70,11 @@ Python 3.8.10
 
 ## 라이브러리 라이선스
 #### yolov5
-Author : Glenn Jocher
+Author : Glenn Jocher  
 License : GPLv3.0  
 https://github.com/ultralytics/yolov5
 #### Yolov5_DeepSort_Pytorch
-Author : Mikel Broström
+Author : Mikel Broström  
 License : GPLv3.0  
 https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch
 #### torch 1.9.1+cu111
