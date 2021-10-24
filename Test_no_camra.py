@@ -32,6 +32,12 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer[1], 0, 1)
     myWindow.video_layout.addWidget(image_viewer[2], 1, 0)
     myWindow.video_layout.addWidget(image_viewer[3], 1, 1)
+    
+    # 알림 테두리 제일 위로
+    myWindow.box1.raise_()
+    myWindow.box2.raise_()
+    myWindow.box3.raise_()
+    myWindow.box4.raise_()
 
     # 전체화면으로 실행
     myWindow.showFullScreen()
