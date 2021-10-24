@@ -94,8 +94,11 @@ class WindowClass(QMainWindow, form_class):
             self.PrevVideo = PrevVideo(get_path)  # 이전 영상 재생 객체 생성
             self.PrevVideo.show()
 
-    # make_alert(i) : i 상황을 기준으로 alert_layout에 알림 생성
-    # 상황 발생 시 signal을 받아 해당 함수 실행
+    # make_alert : 시간, 위치, 상황을 기준으로 alert_layout에 알림 생성
+    # 상황 발생 시 DetectVideo에서 signal을 받아 해당 함수 실행
+    # time : 상황 발생 시각
+    # location : 상황 발생 위치
+    # situation : 상황 종류
     @QtCore.pyqtSlot(datetime.datetime, int, str)
     def make_alert(self, time, location, situation):
         txt = f"**상황발생**\n시간 : {time.strftime('%H:%M:%S')}\n위치 : {str(location)}\n상황 : {situation}"  # 알림 버튼에 들어갈 내용
