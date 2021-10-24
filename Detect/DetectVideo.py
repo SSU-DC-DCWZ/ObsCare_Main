@@ -221,13 +221,14 @@ class Model(QtCore.QObject):
             if int(time.total_seconds()) >= 6:
                 self.fallTimeList = []
                 time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
-                self.notifall = 0
+                self.notifall = None
             # print(time.total_seconds())
             if int(time.total_seconds()) == 5:  ##연속적 falldetect
                 if self.notiFall == None:
                     self.captureSituation(self.c)
                     self.sendLog(self.c)
                     self.fallTimeList = []  ## 시간 초기화
+                    time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
                     self.notiFall = 1
 
     # processObject() : 특정 사물 감지시 로그 발생
