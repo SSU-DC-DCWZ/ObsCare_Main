@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets
 from ui.play_ui import *
 from ui.VideoViewer import Display, ImageViewer
 
+import time
 import cv2
 import os
 
@@ -26,6 +27,7 @@ if __name__ == '__main__':
     # displaylist에 포함되어있는 Display 객체의 영상 재생
     for display in displaylist:
         display.startDisplay()
+        time.sleep(0.5)
 
     # video_layout에 영상 행, 열로 추가
     myWindow.video_layout.addWidget(image_viewer[0], 0, 0)

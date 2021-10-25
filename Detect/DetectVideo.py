@@ -229,7 +229,6 @@ class Model(QtCore.QObject):
                     self.captureSituation(self.c)
                     self.sendLog(self.c)
                     self.fallTimeList.clear() ## 시간 초기화
-                    print(time.total_seconds())
                     time = None
                     self.notiFall = 1
                     
