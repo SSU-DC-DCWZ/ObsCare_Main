@@ -88,16 +88,16 @@ License : GPLv3.0
 https://www.riverbankcomputing.com/software/pyqt/
 #### openpyxl 3.0.7 
 License : MIT/Expat  
-https://openpyxl.readthedocs.io/en/stable/#
+https://github.com/fluidware/openpyxl/blob/master/LICENCE
 #### Pillow 8.3.1
 License : HPND   
 https://github.com/python-pillow/Pillow/blob/main/LICENSE
 #### PyYAML 5.4.1
 License : MIT/  
-https://github.com/yaml/pyyaml
+https://github.com/yaml/pyyaml/blob/master/LICENSE
 #### scipy 1.7.0
-License : liberal BSD  
-https://www.scipy.org/index.html
+License : BSD 3-clause 
+https://github.com/scipy/scipy/blob/master/LICENSE.txt
 #### tensorboard 2.5.0  
 License : apache 2.0  
 https://github.com/tensorflow/tensorboard/blob/master/LICENSE
