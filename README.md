@@ -96,7 +96,7 @@ https://github.com/python-pillow/Pillow/blob/main/LICENSE
 License : MIT/  
 https://github.com/yaml/pyyaml/blob/master/LICENSE
 #### scipy 1.7.0
-License : BSD 3-clause 
+License : BSD 3-clause  
 https://github.com/scipy/scipy/blob/master/LICENSE.txt
 #### tensorboard 2.5.0  
 License : apache 2.0  
