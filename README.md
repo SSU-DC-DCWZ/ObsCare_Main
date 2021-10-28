@@ -90,8 +90,8 @@ https://www.riverbankcomputing.com/software/pyqt/
 License : MIT/Expat  
 https://openpyxl.readthedocs.io/en/stable/#
 #### Pillow 8.3.1
-License : PIL   
-https://github.com/python-pillow/Pillow
+License : HPND   
+https://github.com/python-pillow/Pillow/blob/main/LICENSE
 #### PyYAML 5.4.1
 License : MIT/  
 https://github.com/yaml/pyyaml
