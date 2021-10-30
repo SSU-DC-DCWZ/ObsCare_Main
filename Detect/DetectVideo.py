@@ -219,9 +219,10 @@ class Model(QtCore.QObject):
 
             if int(time.total_seconds()) >= 30:
                 self.notiFall = None
-
-            if int(time.total_seconds()) >= 6:
+                self.fallId = None
                 self.fallTimeList.clear()
+		 
+            if int(time.total_seconds()) >= 6:
                 self.fallId = None
                 
             if int(time.total_seconds()) == 5:  ##연속적 falldetect
