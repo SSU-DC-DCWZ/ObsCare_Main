@@ -67,7 +67,7 @@ class WindowClass(QMainWindow, form_class):
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll.setWidget(tmp_widget)
         self.scroll.setMaximumWidth(400)
-        self.scrollbar.setRange(2147483647, 2147483647)
+        self.scrollbar.setRange(2147483647, 2147483647) # python의 max int 사용
 
         # exit button
         self.exit_button = QPushButton("나가기")
@@ -115,7 +115,6 @@ class WindowClass(QMainWindow, form_class):
 
         self.alert_list.addWidget(btn)  # 버튼 삽입
         self.alert_list.setAlignment(Qt.AlignTop)
-        self.scrollbar.setRange(99,99)  # 자동 스크롤 
 
 
     # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
