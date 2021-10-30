@@ -128,10 +128,10 @@ class Model(QtCore.QObject):
     def startDetecting(self):
         cudnn.benchmark = True  # set True to speed up constant image size inference
         self.dataset = LoadStreams(self.source, img_size=self.imgsz, stride=self.stride)
-        # 동영상 저장 정보 설정
-        self.setSavevideo()
         # run()에서 반복문이 지속되도록 running = True 설정
         self.running = True
+        # 동영상 저장 정보 설정
+        self.setSavevideo()
         self.playStream()
 
     # setSavevideo() : 동영상 저장 경로 및 DB 관리
@@ -143,7 +143,7 @@ class Model(QtCore.QObject):
         # 동영상 저장 경로 설정
         now = datetime.datetime.now()
         self.starttime = datetime.datetime.now()
-        self.savename = "./data/Recording/" + str(self.num) + "/" + now.strftime('%Y%m%d') + ".mp4"
+        self.savename = "./data/Recording/" + str(self.num) + "/" + now.strftime('%Y%m%d%H%M%S') + ".mp4"
         # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
         try:
             if not (os.path.isdir("./data/Recording/" + str(self.num))):
@@ -162,10 +162,16 @@ class Model(QtCore.QObject):
         del db
 
     # stopDetecting(): 스트리밍 정지 및 저장 함수
-    def stopDetecting(self):
+    def stopDetecting(self, endsignal):
         self.running = False
+        if endsignal:
+            time.sleep(1)
+            del self.dataset
+        else:
+            time.sleep(1)
+            self.dataset.cap.release() 
+        time.sleep(1)
         self.out.release()
-        del self.dataset
 
     # playStream() : 스트리밍을 진행하는 함수
     def playStream(self):
@@ -197,7 +203,7 @@ class Model(QtCore.QObject):
             # 일단위 저장을 위해 00시 00분 00초가 되면 스트리밍을 멈추고 저장 후 재시작
             now = datetime.datetime.now()
             if now.strftime('%H%M%S') == '000000':  # 일단위 저장을 위해 00시 00분 00초가 되면 스트리밍을 멈추고 재시작
-                self.stopDetecting()
+                self.stopDetecting(False)
                 self.startDetecting()
 
     # processFall() : 사람의 쓰러짐 감지시 5초간 쓰러짐상태로 계속 유지된다면 로그 발생

@@ -57,7 +57,7 @@ class PrevVideo(QWidget):
         self.vid_length = self.calc_time(self.vid_length)
 
         # 계산한 영상 길이로 재생 바 범위 결정
-        self.bar.setRange(0, self.vid_length)
+        self.bar.setRange(0, self.vid_length[0])
 
         # 슬라이더 위치 변동 시
         self.bar.sliderMoved.connect(self.barChanged)

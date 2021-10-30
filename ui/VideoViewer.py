@@ -28,7 +28,7 @@ class Display:
 
     # stopDisplay : app 종료 후 생성한 Model 객체 스트리밍 정지
     def stopDisplay(self):
-        self.vid.stopDetecting()
+        self.vid.stopDetecting(True)
         self.thread.quit()
 
 # ImageViewer : 영상 재생하기 위한 board class
