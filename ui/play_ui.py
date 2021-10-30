@@ -50,7 +50,7 @@ class WindowClass(QMainWindow, form_class):
     def setUI(self):
         # layer name 위에 띄워주기 위함. style 지정
         window_name = QLabel("Alert List")
-        window_name.setStyleSheet("color:white;")
+        window_name.setStyleSheet("color:white;font-weight:bold;")
         window_name.setFont(QFont("Roboto", 17))
         window_name.setAlignment(Qt.AlignCenter)
         self.alert_layout.addWidget(window_name)
@@ -64,9 +64,10 @@ class WindowClass(QMainWindow, form_class):
         self.alert_layout.addWidget(self.scroll)
         self.scroll.setWidgetResizable(True)
         self.scrollbar = self.scroll.verticalScrollBar()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll.setWidget(tmp_widget)
         self.scroll.setMaximumWidth(400)
-        self.scrollbar.setRange(99,99)
+        self.scrollbar.setRange(2147483647, 2147483647)
 
         # exit button
         self.exit_button = QPushButton("나가기")
