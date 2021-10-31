@@ -95,11 +95,13 @@ class Model(QtCore.QObject):
         self.half = True  # 부동소수점을 절반으로 줄여 연산량 감소
         self.running = False  # 영상 재생 신호 설정
         self.fallTimeList = []  # falldetion timeList
+        self.objTimeList = []
         self.id = None  # 식별 id
         self.fallId = None  # falled 식별 id
         self.objectId = None  # object 식별 id
         self.notiObj = None  # notity parameter
         self.notiFall = None
+        self.objtype = None
 
     # loadModel() : 모델과 cam 매칭 및 모델 생성시 이미지 추론 설정
     @torch.no_grad()
@@ -227,6 +229,7 @@ class Model(QtCore.QObject):
                 self.notiFall = None
                 self.fallId = None
                 self.fallTimeList.clear()
+                time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
 		 
             if int(time.total_seconds()) >= 6:
                 self.fallId = None
@@ -245,14 +248,29 @@ class Model(QtCore.QObject):
         if self.objectId is None:
             self.objectId = self.id
         elif self.objectId != self.id:
+            self.objectId = None
             self.notiObj = None
             return
         else:
-            if self.objectId == self.id and self.notiObj == None:
-                print("detected")
-                self.captureSituation(self.c)
-                self.sendLog(self.c)
-                self.notiObj = 1
+            now = datetime.datetime.now()
+            self.objTimeList.append(now)
+            if len(self.objTimeList) >= 2:
+            	time = self.objTimeList[-1] - self.objTimeList[0]
+            else:
+            	time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)            
+            
+            if int(time.total_seconds()) >= 3:
+                self.objId = None
+                self.objTimeList.clear()
+                time = datetime.timedelta(0, 0, 0, 0, 0, 0, 0)
+        
+            if int(time.total_seconds()) == 2: 
+            	if self.notiObj == None:
+            	    self.captureSituation(self.c)
+            	    self.sendLog(self.c)
+            	    self.objTimeList.clear()
+            	    time = None
+            	    self.notiObj = 1
 
     # loadVideo() : 프레임 각각에 대한 처리를 위한 함수
     def loadVideo(self):
