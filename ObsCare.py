@@ -21,6 +21,8 @@ if __name__ == '__main__':
     displaylist = []
     img_idx = 0
     for i in range(10):
+        if img_idx == 4:
+            break
         if cv2.VideoCapture(i).isOpened():
             displaylist.append(Display(i, img_idx, image_viewer[img_idx], myWindow))
             img_idx += 1

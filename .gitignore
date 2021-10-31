@@ -6,8 +6,4 @@ build
 venv
 dist
 runs
-test1.mkv
-test2.mkv
-test3.mkv
-test4.mkv
-test.py
+test_source

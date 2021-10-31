@@ -19,10 +19,10 @@ if __name__ == '__main__':
 
     # 현재 접근 가능한 카메라 확인 및 displaylist로 연결 가능한 카메라 수만큼 Display 객체 생성
     displaylist = []
-    displaylist.append(Display('test_source/test1.mp4', 0, image_viewer[0], myWindow))
-    displaylist.append(Display('test_source/test2.mp4', 1, image_viewer[1], myWindow))
-    displaylist.append(Display('test_source/test3.mp4', 2, image_viewer[2], myWindow))
-    displaylist.append(Display('test_source/test4.mp4', 3, image_viewer[3], myWindow))
+    displaylist.append(Display('test_source/test_picture_1.mp4', 0, image_viewer[0], myWindow))
+    displaylist.append(Display('test_source/test_picture_2.mp4', 1, image_viewer[1], myWindow))
+    displaylist.append(Display('test_source/test_picture_3.mp4', 2, image_viewer[2], myWindow))
+    displaylist.append(Display('test_source/test_picture_4.mp4', 3, image_viewer[3], myWindow))
 
     # displaylist에 포함되어있는 Display 객체의 영상 재생
     for display in displaylist:
