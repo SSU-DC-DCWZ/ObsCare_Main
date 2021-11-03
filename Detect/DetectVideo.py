@@ -233,7 +233,7 @@ class Model(QtCore.QObject):
 		 
             if int(time.total_seconds()) >= 6:
                 self.fallId = None
-                
+            
             if int(time.total_seconds()) == 5:  ##연속적 falldetect
                 if self.notiFall == None:
                     self.captureSituation(self.c)
