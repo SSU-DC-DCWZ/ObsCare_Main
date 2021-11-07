@@ -16,10 +16,12 @@
 ## 시연 화면
 ### 상황 감지 시 log 발생
 ![1](https://user-images.githubusercontent.com/60226988/140634507-77c0d966-b798-4e0f-bf11-b0737c27a99a.gif)
-### 이전 영상 확인 위한 정보 입력
-![image](https://user-images.githubusercontent.com/49185035/132118151-9dede290-e0f5-4424-85ee-82c1560c30f1.png)
+### 상황 확인 후 log 삭제
+![2](https://user-images.githubusercontent.com/60226988/140634523-3b4f2432-0998-47a2-9c73-97b2dc7ab8cf.gif)
 ### 이전 영상 확인
-![image](https://user-images.githubusercontent.com/49185035/132118157-ec7585ef-f9e0-4b69-bbdf-65bbdb7dc850.png)
+![3](https://user-images.githubusercontent.com/60226988/140634539-bae2816b-1f56-4519-b1e1-9ab638e91a8d.gif)
+### 도움말 창 확인
+![4](https://user-images.githubusercontent.com/60226988/140634551-2b8ca21a-9036-4f65-ad58-ff40932be0e2.gif)
 
 ## 설치 및 실행
 #### Ubuntu 20.04 터미널에서 설치한다고 가정하였습니다.
