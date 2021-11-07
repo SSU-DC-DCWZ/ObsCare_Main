@@ -15,7 +15,7 @@
 
 ## 시연 화면
 ### 상황 감지 시 log 발생
-![image](https://user-images.githubusercontent.com/49185035/132118122-bc0d449c-721b-45e6-a11f-87774ec60777.png)
+![image](https://user-images.githubusercontent.com/49185035/140634432-c7cab73a-33a0-4273-998b-2c3c04b9ce0d.png)  
 ### 이전 영상 확인 위한 정보 입력
 ![image](https://user-images.githubusercontent.com/49185035/132118151-9dede290-e0f5-4424-85ee-82c1560c30f1.png)
 ### 이전 영상 확인
